@@ -1,14 +1,15 @@
 /** @jsxImportSource @emotion/react */
 import styled from '@emotion/styled'
+import * as colors from '../styles/colors'
 
 const inputStyles = {
-    border: '1px solid #f1f1f4',
-    background: '#f1f2f7',
+    border: `1px solid ${colors.gray10}`,
+    background: colors.gray,
     padding: '8px 12px',
-    width:'100%'
+    width:'90%',
   }
   
-  const Input = styled.input({borderRadius: '3px'}, inputStyles)
+  const Input = styled.input({borderRadius: '3px 0 0 3px'}, inputStyles)
   const Container = styled.div({
       maxWidth:'1200px',
       margin: '0 auto',
