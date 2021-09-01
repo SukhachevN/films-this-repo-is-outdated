@@ -2,34 +2,54 @@
 import {Container,Input} from './components/lib'
 import {DiscoverScreen} from './screens/discover'
 import {NotFoundScreen} from './screens/NotFoundScreen'
-import React, { useEffect } from 'react'
-import {searchFilm} from './utils/films'
+import React from 'react'
+import {getSearchFilms,getDiscoverFilms} from './utils/api-client'
 import * as colors from './styles/colors'
 import {FaSearch} from 'react-icons/fa'
 import {
   BrowserRouter as Router,
   Switch,
   Route,
-  Link
+  Link,
+  useRouteMatch
 } from "react-router-dom";
 import { FilmScreen } from './screens/FilmScreen'
 
-//const preloadFilms = searchFilm('&sort_by=popularity.desc',true)
+function NavLink(props){
+  const match = useRouteMatch(props.to)
+  return <Link 
+  css={[
+        {
+          ':hover,:focus': {
+            color: colors.indigo,
+          },
+        },
+        match
+          ? {
+              color:colors.indigo,
+            }
+          : null,
+      ]}
+  {...props} />
+}
 
 function App() {
-  const [films,setFilms] = React.useState()
+  const [films,setFilms] = React.useState(null)
     async function handleSubmit(event){
         event.preventDefault()
-        setFilms(await searchFilm(`&query=${event.target.search.value}`))
+        setFilms(await getSearchFilms(`&query=${encodeURI(event.target.search.value)}`))
     }
+    React.useEffect(()=>{
+      getDiscoverFilms('&sort_by=popularity.desc',true).then(data=>setFilms(data))
+    },[])
   return (
     <Container>
         <Router>
         <header css={{margin:'0 auto 50px 0',width:'100%'}}>
           <nav css={{display:'flex',justifyContent:'center',gap:'20px',padding:'40px 0'}}>
-              <Link to="/discover">Discover</Link>
-              <Link to="/favourite">Favourite</Link>
-              <Link to="/watchLater">Watch later</Link>
+              <NavLink to="/discover">Discover</NavLink>
+              <NavLink to="/favourite">Favourite</NavLink>
+              <NavLink to="/watchLater">Watch later</NavLink>
           </nav>
             <form onSubmit={handleSubmit} css={{
                 display:'flex',width:'100%',justifyContent:'center'
