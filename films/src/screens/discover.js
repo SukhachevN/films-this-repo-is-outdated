@@ -2,6 +2,7 @@
 import {Film} from './Film'
 
 function DiscoverScreen({films}){
+    console.log(films)
     return (
         <main>
           <div css={{display:'flex',flexWrap:'wrap',justifyContent:'center',gap:'20px'}}>

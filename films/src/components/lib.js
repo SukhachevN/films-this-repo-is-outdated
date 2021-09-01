@@ -4,7 +4,7 @@ import * as colors from '../styles/colors'
 
 const inputStyles = {
     border: `1px solid ${colors.gray10}`,
-    background: colors.gray,
+    background: colors.blue,
     padding: '8px 12px',
     width:'90%',
   }
