@@ -38,7 +38,12 @@ function App() {
   const {data:films,run} = useAsync()
     async function handleSubmit(event){
         event.preventDefault()
-        run(getSearchFilms(`&query=${encodeURI(event.target.search.value)}`))
+        if(event.target.search.value===''){
+          run(getDiscoverFilms('&sort_by=popularity.desc'))
+        }else{
+          run(getSearchFilms(`&query=${encodeURI(event.target.search.value)}`))
+        }
+        
     }
     React.useEffect(()=>{
       run(getDiscoverFilms('&sort_by=popularity.desc'))
