@@ -6,6 +6,7 @@ import React from 'react'
 import {getSearchFilms,getDiscoverFilms} from './utils/api-client'
 import * as colors from './styles/colors'
 import {FaSearch} from 'react-icons/fa'
+import { useAsync } from './utils/hooks'
 import {
   BrowserRouter as Router,
   Switch,
@@ -34,14 +35,14 @@ function NavLink(props){
 }
 
 function App() {
-  const [films,setFilms] = React.useState(null)
+  const {data:films,run} = useAsync()
     async function handleSubmit(event){
         event.preventDefault()
-        setFilms(await getSearchFilms(`&query=${encodeURI(event.target.search.value)}`))
+        run(getSearchFilms(`&query=${encodeURI(event.target.search.value)}`))
     }
     React.useEffect(()=>{
-      getDiscoverFilms('&sort_by=popularity.desc',true).then(data=>setFilms(data))
-    },[])
+      run(getDiscoverFilms('&sort_by=popularity.desc'))
+    },[run])
   return (
     <Container>
         <Router>
@@ -52,7 +53,10 @@ function App() {
               <NavLink to="/watchLater">Watch later</NavLink>
           </nav>
             <form onSubmit={handleSubmit} css={{
-                display:'flex',width:'100%',justifyContent:'center'
+                display:'flex',
+                width:'85%',
+                justifyContent:'center',
+                margin:'0 auto',
                 }}>
             <Input
              placeholder='Search film...'
