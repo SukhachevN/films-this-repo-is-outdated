@@ -8,7 +8,7 @@ import 'react-circular-progressbar/dist/styles.css';
 import {useSelector, useDispatch} from 'react-redux'
 import { addToFavourite, removeFromFavourite } from '../redux/favourite/faviuriteActions';
 import { addToWatchLater, removeFromWatchLater } from '../redux/watchLater/watchLaterActions';
-import {Like,WatchLater,WatchVideo,StatusButton} from '../components/statusButtons'
+import {Like,WatchLater,StatusButton} from '../components/statusButtons'
 function Film({data}){
     const imagePath = 'https://image.tmdb.org/t/p/original/'
     const filmImg = data.poster_path?`${imagePath}${data.poster_path}`:filmPlaceHolder
@@ -18,7 +18,7 @@ function Film({data}){
     const inWatchLater = state?.watchLater.idList.includes(data.id) 
     const dispatch = useDispatch()
     const style = {
-        border:`1px solid ${colors.gray}`,
+        border:`2px solid ${colors.gray20}`,
         borderRadius:'20px',
         display:'flex',
         flexDirection:'column',
@@ -88,7 +88,7 @@ function Film({data}){
                     <StatusButton onClick={()=>dispatch(inFavourite
                     ?removeFromFavourite(data) 
                     : addToFavourite(data))}>
-                        <Like size = '2rem' color={inFavourite ? 'red' : 'inherit'}/>
+                        <Like size = '2rem' color={inFavourite ? colors.red : colors.gray80}/>
                     </StatusButton>
                     <div css={{
                     width:'60px',
@@ -105,7 +105,7 @@ function Film({data}){
                     <StatusButton onClick={()=>dispatch(inWatchLater 
                     ? removeFromWatchLater(data)
                     : addToWatchLater(data) )}>
-                        <WatchLater size = '2rem' color={inWatchLater ? 'green' : 'inherit'}/>
+                        <WatchLater size = '2rem' color={inWatchLater ? colors.brightGreen : colors.gray80}/>
                     </StatusButton>
                 </div>
         </div>

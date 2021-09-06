@@ -104,15 +104,15 @@ function Film(data,video,dispatch,state){
             <StatusButton onClick={()=>dispatch(inFavourite
             ?removeFromFavourite(data) 
             : addToFavourite(data))}>
-                <Like size = '2rem' color={inFavourite ? 'red' : 'inherit'}/>
+                <Like size = '2rem' color={inFavourite ? colors.red : colors.gray80}/>
             </StatusButton>
             <StatusButton onClick={()=>dispatch(inWatchLater 
             ? removeFromWatchLater(data)
             : addToWatchLater(data) )}>
-                <WatchLater size = '2rem' color={inWatchLater ? 'green' : 'inherit'}/>
+                <WatchLater size = '2rem' color={inWatchLater ? colors.brightGreen : colors.gray80}/>
             </StatusButton>
             <StatusButton>
-                    {key?<a href={`https://www.youtube.com/watch?v=${key}`}><WatchVideo size='2rem'/></a>:null}
+                    {key?<a href={`https://www.youtube.com/watch?v=${key}`}><WatchVideo size='2rem' color={colors.gray80}/></a>:null}
             </StatusButton>
             </div>
             <div css={{
