@@ -15,6 +15,8 @@ import {
   useRouteMatch
 } from "react-router-dom";
 import { FilmScreen } from './screens/FilmScreen'
+import { FavouriteScreen } from './screens/favourite'
+import { WatchLaterScreen } from './screens/watchLater'
 
 function NavLink(props){
   const match = useRouteMatch(props.to)
@@ -90,10 +92,10 @@ function App() {
                 <DiscoverScreen films={films}/>
               </Route>
               <Route path="/favourite">
-                <div>Favourite</div>
+                <FavouriteScreen/>
               </Route>
               <Route path="/watchLater">
-                <div>Watch later</div>
+                <WatchLaterScreen/>
               </Route>
               <Route path="/films/:filmId">
                 <FilmScreen/>

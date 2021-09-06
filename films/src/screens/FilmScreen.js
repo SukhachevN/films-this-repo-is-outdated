@@ -8,11 +8,16 @@ import * as mq from '../styles/media-queries'
 import { useAsync } from '../utils/hooks'
 import {NotFoundScreen} from '../screens/NotFoundScreen'
 import * as colors from '../styles/colors'
-import {ImYoutube2} from 'react-icons/fa'
+import {useSelector, useDispatch} from 'react-redux'
+import { addToFavourite, removeFromFavourite } from '../redux/favourite/faviuriteActions';
+import { addToWatchLater, removeFromWatchLater } from '../redux/watchLater/watchLaterActions';
+import {Like,WatchLater,WatchVideo,StatusButton} from '../components/statusButtons'
 function FilmScreen(){
     const {filmId} = useParams()
     const {data:info,run:fetchInfo,isLoading:isInfoLoading,isSuccess:isInfoSucces,error} = useAsync()
     const {data:video,run:fetchVideo,isLoading:isVideoLoading,isSuccess:isVideoSucces} = useAsync()
+    const state = useSelector(state => state)
+    const dispatch = useDispatch()
     React.useEffect(()=>{
         fetchInfo(getFilmInfo(filmId))
         fetchVideo(getFilmVideos(filmId))
@@ -30,7 +35,7 @@ function FilmScreen(){
     if(isInfoLoading||isVideoLoading){
         return Film(loadingData)
     } else if(isInfoSucces && isVideoSucces){
-        return Film(info,video)
+        return Film(info,video,dispatch,state)
     } else {
        return (<div css={{display:'flex',flexDirection:'column',alignItems:'center'}}>
        <p css={{color:colors.danger,paddingBottom:'40px'}}>{error?error.status_message:null}</p>
@@ -40,11 +45,13 @@ function FilmScreen(){
        
 }
 
-function Film(data,video){
+function Film(data,video,dispatch,state){
     const {title,overview,release_date,budget,vote_average,runtime,poster_path,homepage} = data
     const percentage = vote_average*10
     const key = video?.results[0]?.key
     const imagePath = poster_path ?`https://image.tmdb.org/t/p/original/${poster_path}` : filmPlaceHolder
+    const inFavourite = state?.favourite.idList.includes(data.id)
+    const inWatchLater = state?.watchLater.idList.includes(data.id) 
     return <section css={{display:'flex',justifyContent:'center'}}>
         <div css={{display:'flex',justifyContent:'center',flexDirection:'column',alignItems:'center',paddingBottom:'50px',width:'100%'}}>
         <h1>{title}</h1>
@@ -90,6 +97,25 @@ function Film(data,video){
             <li>Site: {homepage?<a css={{textDecoration:'underline'}} href={homepage}>{homepage}</a>:'No site'}</li>
             <li>Description: {overview}</li>
             <div css={{
+                display:'flex',
+                gap:'20px',
+                justifyContent:'center'
+            }}>
+            <StatusButton onClick={()=>dispatch(inFavourite
+            ?removeFromFavourite(data) 
+            : addToFavourite(data))}>
+                <Like size = '2rem' color={inFavourite ? 'red' : 'inherit'}/>
+            </StatusButton>
+            <StatusButton onClick={()=>dispatch(inWatchLater 
+            ? removeFromWatchLater(data)
+            : addToWatchLater(data) )}>
+                <WatchLater size = '2rem' color={inWatchLater ? 'green' : 'inherit'}/>
+            </StatusButton>
+            <StatusButton>
+                    {key?<a href={`https://www.youtube.com/watch?v=${key}`}><WatchVideo size='2rem'/></a>:null}
+            </StatusButton>
+            </div>
+            <div css={{
                 width:'100px',
                 height:'100px',
                 margin:'auto',
@@ -99,17 +125,7 @@ function Film(data,video){
                 },
                 }}>
                 <CircularProgressbar value={percentage} text={`${percentage}%`} />
-            </div>
-            <div css={{
-                margin:'auto',
-            }}>
-                <button css={{
-                        fontSize:'1.3rem',
-                        padding:'5px'
-                    }}>
-                    {key?<a href={`https://www.youtube.com/watch?v=${key}`}>Watch trailer</a>:'no trailer :('}
-                </button>
-            </div>  
+            </div> 
            </ul>
         </div>
         </div>
