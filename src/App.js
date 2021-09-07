@@ -37,7 +37,7 @@ function NavLink(props){
 }
 
 function App() {
-  const {data:films,run} = useAsync()
+  const {data:films,run,isError,error} = useAsync()
     async function handleSubmit(event){
         event.preventDefault()
         if(event.target.search.value===''){
@@ -89,7 +89,9 @@ function App() {
         </header>
           <Switch>
               <Route exact path="/discover">
-                <DiscoverScreen films={films}/>
+              {isError 
+              ? <div css={{color:colors.danger}}>{error.message}</div> : 
+              <DiscoverScreen films={films}/>}
               </Route>
               <Route path="/favourite">
                 <FavouriteScreen/>

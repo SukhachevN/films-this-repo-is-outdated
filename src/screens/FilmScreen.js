@@ -12,6 +12,7 @@ import {useSelector, useDispatch} from 'react-redux'
 import { addToFavourite, removeFromFavourite } from '../redux/favourite/faviuriteActions';
 import { addToWatchLater, removeFromWatchLater } from '../redux/watchLater/watchLaterActions';
 import {Like,WatchLater,WatchVideo,StatusButton} from '../components/statusButtons'
+import { loadingFilm } from '../components/loadingFilm';
 function FilmScreen(){
     const {filmId} = useParams()
     const {data:info,run:fetchInfo,isLoading:isInfoLoading,isSuccess:isInfoSucces,error} = useAsync()
@@ -22,18 +23,8 @@ function FilmScreen(){
         fetchInfo(getFilmInfo(filmId))
         fetchVideo(getFilmVideos(filmId))
     },[fetchInfo, fetchVideo, filmId])
-    const loadingData = {
-        title:'loading ...',
-        overview:'loading...',
-        release_date:'loading...',
-        budget:'loading...',
-        vote_average:'0',
-        poster_path:null,
-        homepage:'loading...',
-        runtime:'loading...'
-    }
     if(isInfoLoading||isVideoLoading){
-        return Film(loadingData)
+        return Film(loadingFilm)
     } else if(isInfoSucces && isVideoSucces){
         return Film(info,video,dispatch,state)
     } else {
@@ -54,13 +45,16 @@ function Film(data,video,dispatch,state){
     const inWatchLater = state?.watchLater.idList.includes(data.id) 
     return <section css={{display:'flex',justifyContent:'center'}}>
         <div css={{display:'flex',justifyContent:'center',flexDirection:'column',alignItems:'center',paddingBottom:'50px',width:'100%'}}>
-        <h1>{title}</h1>
+        <h1 css={{textAlign:'center'}}>{title}</h1>
         <div css={
             {display:'flex',
             justifyContent:'center',
             gap:'20px',
             width:"100%",
             padding: '0 50px',
+            [mq.ultraSmall]:{
+                flexDirection:'column'
+            },
             [mq.small]:{
                 flexDirection:'column'
             },
@@ -69,7 +63,7 @@ function Film(data,video,dispatch,state){
            css={{
                width:'100%',
                height:"100%",
-               maxHeight:'40rem',
+               maxHeight:'45rem',
                maxWidth:'30rem',
                flexBasis:'50%',
                margin:'0 auto',
@@ -87,6 +81,9 @@ function Film(data,video,dispatch,state){
                flexDirection:'column',
                gap:'50px',
                flexBasis:'50%',
+               [mq.ultraSmall]:{
+                gap:'20px'
+            },
                [mq.small]:{
                     gap:'20px',
                 },
@@ -94,7 +91,7 @@ function Film(data,video,dispatch,state){
            <li>Release date: {release_date ?? 'unknown'}</li>
             <li>Budget: {budget !== null && budget!==0 ? `${budget} $`:'unknown'}</li>
             <li>Length: {runtime ?? 'unknown'} min</li>
-            <li>Site: {homepage?<a css={{textDecoration:'underline'}} href={homepage}>{homepage}</a>:'No site'}</li>
+            <li>Site: {homepage?<a css={{textDecoration:'underline',overflowWrap:'break-word'}} href={homepage}>{homepage}</a>:'No site'}</li>
             <li>Description: {overview}</li>
             <div css={{
                 display:'flex',

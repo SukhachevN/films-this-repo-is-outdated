@@ -25,6 +25,7 @@ function Film({data}){
         alignItems:'center',
         margin: "0 20px",
         padding:'20px',
+        justifyContent:'space-between',
         [mq.small]:{
             flexBasis:'100%',
             padding:'30px'
@@ -46,17 +47,28 @@ function Film({data}){
                     src={filmImg}
                     alt={`${data.title} book cover`}
                     css={{
-                         width: '100%',
-                         maxWidth: '20rem',
-                         height:'100%',
-                         maxHeight:'20rem',
-                         paddingBottom:'30px',
-                         margin:'0 auto',
-                         display:'flex',
-                         [mq.small]:{
-                            maxHeight:'25rem',
-                          },
-
+                        width: '100%',
+                        maxWidth: '20rem',
+                        height:'100%',
+                        maxHeight:'20rem',
+                        paddingBottom:'30px',
+                        margin:'0 auto',
+                        display:'flex',
+                        [mq.ultraSmall]:{
+                            maxHeight:'19rem',
+                            maxWidth: '14rem',
+                        },
+                        [mq.small]:{
+                            maxHeight:'23rem',
+                            maxWidth: '14rem',
+                        },
+                        [mq.medium]:{
+                            maxWidth: '15rem',
+                            maxHeight:'23rem',
+                        },
+                        [mq.large]:{
+                            maxWidth: '13rem',
+                        },       
                         }}
                 />
                 <h2 
