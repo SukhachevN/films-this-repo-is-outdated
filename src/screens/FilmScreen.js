@@ -1,17 +1,15 @@
-/** @jsxImportSource @emotion/react */
 import React from 'react'
 import {useParams} from 'react-router-dom'
 import { getFilmInfo,getFilmVideos } from '../utils/api-client'
 import { CircularProgressbar } from 'react-circular-progressbar';
 import filmPlaceHolder from '../img/image-placeholder.jpg'
-import * as mq from '../styles/media-queries'
 import { useAsync } from '../utils/hooks'
 import {NotFoundScreen} from '../screens/NotFoundScreen'
 import * as colors from '../styles/colors'
 import {useSelector, useDispatch} from 'react-redux'
 import { addToFavourite, removeFromFavourite } from '../redux/favourite/faviuriteActions';
 import { addToWatchLater, removeFromWatchLater } from '../redux/watchLater/watchLaterActions';
-import {Like,WatchLater,WatchVideo,StatusButton} from '../components/statusButtons'
+import {Like,WatchLater,WatchVideo} from '../components/statusButtons'
 import { loadingFilm } from '../components/loadingFilm';
 function FilmScreen(){
     const {filmId} = useParams()
@@ -19,6 +17,12 @@ function FilmScreen(){
     const {data:video,run:fetchVideo,isLoading:isVideoLoading,isSuccess:isVideoSucces} = useAsync()
     const state = useSelector(state => state)
     const dispatch = useDispatch()
+    const inFavourite = state?.favourite.idList.includes(info?.id)
+    const inWatchLater = state?.watchLater.idList.includes(info?.id)
+    const likeButton = React.useMemo(() => like(dispatch,inFavourite,info),[dispatch, inFavourite, info])
+    const watchLaterButton = React.useMemo(()=>watchLater(dispatch,inWatchLater,info),[dispatch, inWatchLater, info]) 
+    const watchVideoButton = React.useMemo(()=>watchVideo(video?.results[0]?.key),[video?.results])
+    const rate = React.useMemo(()=>rating(info?.vote_average*10),[info?.vote_average])  
     React.useEffect(()=>{
         fetchInfo(getFilmInfo(filmId))
         fetchVideo(getFilmVideos(filmId))
@@ -26,107 +30,86 @@ function FilmScreen(){
     if(isInfoLoading||isVideoLoading){
         return Film(loadingFilm)
     } else if(isInfoSucces && isVideoSucces){
-        return Film(info,video,dispatch,state)
+        return Film(info,{
+            likeButton:likeButton,
+            watchLaterButton:watchLaterButton,
+            watchVideoButton:watchVideoButton,
+            rate:rate
+        })
     } else {
-       return (<div css={{display:'flex',flexDirection:'column',alignItems:'center'}}>
-       <p css={{color:colors.danger,paddingBottom:'40px'}}>{error?error.status_message:null}</p>
+       return (<div className='ErrorBlockFilmScreen'>
+       <p className='ErrorMessage ErrorMessageFilmScreen'>{error?error.status_message:null}</p>
         <NotFoundScreen />
        </div>)
     }
        
 }
 
-function Film(data,video,dispatch,state){
-    const {title,overview,release_date,budget,vote_average,runtime,poster_path,homepage} = data
-    const percentage = vote_average*10
-    const key = video?.results[0]?.key
+function like(dispatch,inFavourite,info){
+    if (!info){
+        return null
+    }
+    return <button className='StatusButton' onClick={()=>dispatch(inFavourite
+        ?removeFromFavourite(info) 
+        : addToFavourite(info))}>
+            <Like size = '2.5rem' color={inFavourite ? colors.red : colors.gray80}/>
+    </button>
+}
+
+function watchLater(dispatch,inWatchLater,info){
+    if (!info){
+        return null
+    }
+    return <button className='StatusButton' onClick={()=>dispatch(inWatchLater 
+        ? removeFromWatchLater(info)
+        : addToWatchLater(info) )}>
+            <WatchLater size = '2.5rem' color={inWatchLater ? colors.brightGreen : colors.gray80}/> 
+    </button>
+}
+
+function watchVideo(key){
+    if (!key){
+        return null
+    }
+    return <button className='StatusButton'>
+                    {key?<a href={`https://www.youtube.com/watch?v=${key}`}>{<WatchVideo size='2.5rem' color={colors.gray80}/>}</a>:null}
+    </button>
+}
+
+function rating(percentage = 0){
+    return <div className='ProgressBar ProgressBarFilmScreen'>
+                <CircularProgressbar value={percentage} text={`${percentage}%`} />
+    </div> 
+}
+
+function Film(data,ui){
+    const {title,overview,release_date,budget,runtime,poster_path,homepage} = data
     const imagePath = poster_path ?`https://image.tmdb.org/t/p/original/${poster_path}` : filmPlaceHolder
-    const inFavourite = state?.favourite.idList.includes(data.id)
-    const inWatchLater = state?.watchLater.idList.includes(data.id) 
-    return <section css={{display:'flex',justifyContent:'center'}}>
-        <div css={{display:'flex',justifyContent:'center',flexDirection:'column',alignItems:'center',paddingBottom:'50px',width:'100%'}}>
-        <h1 css={{textAlign:'center'}}>{title}</h1>
-        <div css={
-            {display:'flex',
-            justifyContent:'center',
-            gap:'20px',
-            width:"100%",
-            padding: '0 50px',
-            [mq.ultraSmall]:{
-                flexDirection:'column'
-            },
-            [mq.small]:{
-                flexDirection:'column'
-            },
-            }}>
+    const {likeButton,watchLaterButton,watchVideoButton,rate} = ui ?? {
+        likeButton:null,
+        watchLaterButton:null,
+        watchVideoButton:null,
+        rate: rating()
+    }
+    return <section className='FilmScreenSection'>
+        <h1 className='FilmScreenH1'>{title}</h1>
+        <div className='FilmScreenContent'>
            <img src={imagePath} alt={`${title} poster`} 
-           css={{
-               width:'100%',
-               height:"100%",
-               maxHeight:'45rem',
-               maxWidth:'30rem',
-               flexBasis:'50%',
-               margin:'0 auto',
-                [mq.small]:{
-                    maxHeight:'20rem',
-                    maxWidth:'15rem',
-                },
-                [mq.medium]:{
-                    maxHeight:'30rem',
-                    maxWidth:'20rem',
-                },
-               }}/> 
-           <ul css={{
-               display:'flex',
-               flexDirection:'column',
-               gap:'50px',
-               flexBasis:'50%',
-               [mq.ultraSmall]:{
-                gap:'20px'
-            },
-               [mq.small]:{
-                    gap:'20px',
-                },
-               }}>
+           className='FilmScreenImg'/> 
+           <ul className='FilmScreenPropertiesList'>
            <li>Release date: {release_date ?? 'unknown'}</li>
             <li>Budget: {budget !== null && budget!==0 ? `${budget} $`:'unknown'}</li>
             <li>Length: {runtime ?? 'unknown'} min</li>
-            <li>Site: {homepage?<a css={{textDecoration:'underline',overflowWrap:'break-word'}} href={homepage}>{homepage}</a>:'No site'}</li>
+            <li>Site: {homepage?<a className='SiteLink' href={homepage}>{homepage}</a>:'No site'}</li>
             <li>Description: {overview}</li>
-            <div css={{
-                display:'flex',
-                gap:'20px',
-                justifyContent:'center'
-            }}>
-            <StatusButton onClick={()=>dispatch(inFavourite
-            ?removeFromFavourite(data) 
-            : addToFavourite(data))}>
-                <Like size = '2rem' color={inFavourite ? colors.red : colors.gray80}/>
-            </StatusButton>
-            <StatusButton onClick={()=>dispatch(inWatchLater 
-            ? removeFromWatchLater(data)
-            : addToWatchLater(data) )}>
-                <WatchLater size = '2rem' color={inWatchLater ? colors.brightGreen : colors.gray80}/>
-            </StatusButton>
-            <StatusButton>
-                    {key?<a href={`https://www.youtube.com/watch?v=${key}`}><WatchVideo size='2rem' color={colors.gray80}/></a>:null}
-            </StatusButton>
+            <div className='StatusButtonsBlock StatusButtonBlockFilmScreen'>
+            {likeButton}
+            {watchLaterButton}
+            {watchVideoButton}
             </div>
-            <div css={{
-                width:'100px',
-                height:'100px',
-                margin:'auto',
-                [mq.small]:{
-                    width:'75px',
-                    height:'75px',
-                },
-                }}>
-                <CircularProgressbar value={percentage} text={`${percentage}%`} />
-            </div> 
+            {rate} 
            </ul>
         </div>
-        </div>
-
     </section>
 }
 

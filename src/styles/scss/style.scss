@@ -1,0 +1,272 @@
+$base : white;
+$text : #434449;
+$gray : #f1f2f7;
+$gray10 : #f1f1f4;
+$gray20 : #e4e5e9;
+$gray80 : #6f7077;
+$indigo : #3f51b5;
+$indigoDarken10 : #364495;
+$indigoLighten80 : #b7c1f8;
+$yellow : #ffc107;
+$green : #4caf50;
+$danger : #ef5350;
+$orange : orange;
+$blue : #e8f0fe;
+$red : red;
+$brightGreen : green;
+$extraLarge : 1200px;//(min-width: 1200px);
+$large : 992px;//(min-width: 992px) and (max-width: 1199px);
+$medium : 768px;//(min-width: 768px) and (max-width: 992px);
+$small : 300px;//(min-width: 301px) and (max-width: 767px);
+//$ultraSmall : (max-width: 300px);
+
+
+/*--------------------------------------------------------HEADER----------------------------------------------------------*/
+
+.NavLink {
+    &:hover,
+    &:focus {
+        color: $indigo;
+    }
+}
+
+.NavLinkMatch {
+    color: $indigo;
+}
+
+.container {
+    max-width: $extraLarge;
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.Header {
+    width: 100%;
+    margin:0 auto 50px 0;
+}
+
+.HeaderNav {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    padding: 40px 0;
+}
+
+.SearchForm {
+    display: flex;
+    width: 85%;
+    justify-content: center;
+    margin: 0 auto;
+}
+
+.SearchInput {
+    border: 1px solid $gray10;
+    background: $blue;
+    padding: 8px 12px;
+    width: 90%;
+    border-radius: 3px 0 0 3px;
+}
+
+.SearchLabel {
+    display: flex;
+}
+
+.SearchButton {
+    border: 1px solid $gray10;
+    border-radius: 0 3px 3px 0;
+    position: relative;
+    background: $blue;
+    width: 40px;
+    cursor: pointer;
+}
+
+.ErrorMessage {
+    color: $danger;
+}
+
+/*-------------------------------------------FILMS---------------------------------------------------------------*/
+
+.FilmContainer {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+}
+
+.NotFoundScreen {
+    width: 25%;
+    margin: auto;
+}
+
+.Film {
+    border: 2px solid $gray20;
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0 20px;
+    padding: 20px;
+    justify-content: space-between;
+    @media (min-width: $small) and (max-width:$medium) {
+        flex-basis: 100%;
+        padding: 30px;
+    }
+    @media (min-width: $medium) and (max-width:$large){
+        flex-basis: 40%; 
+    }
+    @media (min-width: $large) and (max-width:$extraLarge) {
+        flex-basis: 25%;
+    }
+    @media (min-width: $extraLarge) {
+        flex-basis: 20%;
+    }
+}
+
+.FilmImg {
+    width: 100%;
+    max-width: 20rem;
+    height: 100%;
+    max-height: 20rem;
+    padding-bottom: 30px;
+    margin: 0 auto;
+    display: flex;
+    @media (max-width: $small) {
+        max-height: 19rem;
+        max-width: 14rem;
+    }
+    @media (min-width: $small) and (max-width:$medium) {
+        max-height: 23rem;
+        max-width: 14rem;
+    }
+    @media (min-width: $medium) and (max-width:$large){
+        max-height: 23rem;
+        max-width: 15rem; 
+    }
+    @media (min-width: $large) and (max-width:$extraLarge) {
+        max-width: 13rem;
+    }
+}
+
+.OverFlowText {
+    display: -webkit-box;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    -webkit-box-orient: vertical;
+}
+
+.FilmH2 {
+    height: 60px;
+    line-height: 1.2;
+    -webkit-line-clamp: 2;
+}
+
+.FilmOverwiew {
+    padding-top: 10px;
+    -webkit-line-clamp: 4;
+    height: 85px;
+}
+
+.StatusButtonsBlock {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    align-items: center;
+    padding: 10px 0;
+}
+
+.ProgressBar {
+    width: 60px;
+    height: 60px;
+    padding: 5px 0;
+    margin: 0 auto;
+    @media (min-width: $small) and (max-width:$medium) {
+        width: 80px;
+        height: 80px;
+    }
+}
+
+.FilmScreenSection {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    padding-bottom: 50px;
+    width: 100%;
+}
+
+.FilmScreenH1 {
+    text-align: center;
+    padding-bottom: 20px;
+}
+
+.FilmScreenContent {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    width: 100%;
+    padding: 0 50px;
+    
+    @media (max-width:$medium) {
+        flex-direction: column;
+    }
+}
+
+.FilmScreenImg {
+    width: 100%;
+    height: 100%;
+    max-height: 45rem;
+    max-width: 30rem;
+    flex-basis: 50%;
+    margin: 0 auto;
+    @media (min-width: $small) and (max-width:$medium) {
+        max-height: 25rem;
+        max-width: 15rem;
+    }
+    @media (min-width: $medium) and (max-width:$large){
+        max-height: 30rem;
+        max-width: 20rem; 
+    }
+}
+
+.FilmScreenPropertiesList {
+    display: flex;
+    flex-direction: column;
+    gap: 50px;
+    flex-basis: 50%;
+    @media (max-width:$medium) {
+        gap: 20px;
+    }
+}
+
+.SiteLink {
+    text-decoration: underline;
+    overflow-wrap: break-word;
+}
+
+.StatusButtonBlockFilmScreen{
+    padding: 0;
+}
+
+.ProgressBarFilmScreen {
+    width: 100px;
+    height: 100px;
+    padding: 0;
+}
+
+.ErrorBlockFilmScreen {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.ErrorMessageFilmScreen {
+    padding-bottom: 40px;
+}
+
+.StatusButton {
+    border:none;
+    background: transparent;
+    cursor: pointer;
+}

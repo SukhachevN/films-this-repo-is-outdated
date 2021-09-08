@@ -1,4 +1,5 @@
-/** @jsxImportSource @emotion/react */
+
+import React from "react";
 import { BsFillHeartFill,BsFillClockFill,BsDisplayFill } from "react-icons/bs";
 
 function Like(props){
@@ -13,12 +14,4 @@ function WatchVideo(props){
     return <BsDisplayFill aria-label='watch movie trailer' {...props}/>
 }
 
-function StatusButton(props){
-    return <button css={{
-        border:'none',
-        background:'transparent',
-        cursor:'pointer',
-    }} {...props}/>
-}
-
-export {Like,WatchLater,WatchVideo,StatusButton}
+export {Like,WatchLater,WatchVideo}

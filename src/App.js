@@ -1,10 +1,9 @@
-/** @jsxImportSource @emotion/react */
-import {Container,Input} from './components/lib'
+import 'normalize.css';
+import './styles/css/style.css'
 import {DiscoverScreen} from './screens/discover'
 import {NotFoundScreen} from './screens/NotFoundScreen'
 import React from 'react'
 import {getSearchFilms,getDiscoverFilms} from './utils/api-client'
-import * as colors from './styles/colors'
 import {FaSearch} from 'react-icons/fa'
 import { useAsync } from './utils/hooks'
 import {
@@ -20,19 +19,7 @@ import { WatchLaterScreen } from './screens/watchLater'
 
 function NavLink(props){
   const match = useRouteMatch(props.to)
-  return <Link 
-  css={[
-        {
-          ':hover,:focus': {
-            color: colors.indigo,
-          },
-        },
-        match
-          ? {
-              color:colors.indigo,
-            }
-          : null,
-      ]}
+  return <Link className={`NavLink ${match ? 'NavLinkMatch' : ''}`}
   {...props} />
 }
 
@@ -51,46 +38,31 @@ function App() {
       run(getDiscoverFilms('&sort_by=popularity.desc'))
     },[run])
   return (
-    <Container>
+    <div className='container'>
         <Router>
-        <header css={{margin:'0 auto 50px 0',width:'100%'}}>
-          <nav css={{display:'flex',justifyContent:'center',gap:'20px',padding:'40px 0'}}>
+        <header className='Header'>
+          <nav className='HeaderNav'>
               <NavLink to="/discover">Discover</NavLink>
               <NavLink to="/favourite">Favourite</NavLink>
               <NavLink to="/watchLater">Watch later</NavLink>
           </nav>
-            <form onSubmit={handleSubmit} css={{
-                display:'flex',
-                width:'85%',
-                justifyContent:'center',
-                margin:'0 auto',
-                }}>
-            <Input
-             placeholder='Search film...'
-             id="search"
-             type="search"
+            <form onSubmit={handleSubmit} className ='SearchForm'>
+            <input className='SearchInput'
+              placeholder='Search film...'
+              id="search"
+              type="search"
              />
-                <label htmlFor="search"  css={{display:'flex'}}>
-                <button
-                    type="submit"
-                    css={{
-                    border: `1px solid ${colors.gray10}`,
-                    borderRadius:'0 3px 3px 0',
-                    position: 'relative',
-                    background: colors.blue,
-                    width:'40px',
-                    cursor:'pointer'
-                    }}
-                >
-                <FaSearch aria-label="search" />
-                </button>
+                <label htmlFor="search"  className = 'SearchLabel'>
+                  <button type="submit" className='SearchButton'>
+                    <FaSearch aria-label="search" />
+                  </button>
                 </label>
         </form>
         </header>
           <Switch>
               <Route exact path="/discover">
               {isError 
-              ? <div css={{color:colors.danger}}>{error.message}</div> : 
+              ? <div className = 'ErrorMessage'>{error.message}</div> : 
               <DiscoverScreen films={films}/>}
               </Route>
               <Route path="/favourite">
@@ -107,7 +79,7 @@ function App() {
               </Route>
           </Switch>
         </Router>
-    </Container>
+    </div>
   );
 }
 
