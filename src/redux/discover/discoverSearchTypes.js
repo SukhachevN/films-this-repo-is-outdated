@@ -1,0 +1,4 @@
+export const GET_DISCOVER = 'GET_DISCOVER'
+export const GET_SEARCH_FILMS = 'GET_SEARCH_FILMS'
+export const GET_FILM_INFO = 'GET_FILM_INFO'
+export const GET_FILM_TRAILERS = 'GET_FILM_TRAILERS'

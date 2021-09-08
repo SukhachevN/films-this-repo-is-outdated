@@ -1,26 +1,29 @@
-import * as colors from '../styles/colors'
 import filmPlaceHolder from '../img/image-placeholder.jpg'
-import { CircularProgressbar } from 'react-circular-progressbar';
 import {Link} from "react-router-dom";
 import 'react-circular-progressbar/dist/styles.css';
 import {useSelector, useDispatch} from 'react-redux'
-import { addToFavourite, removeFromFavourite } from '../redux/favourite/faviuriteActions';
-import { addToWatchLater, removeFromWatchLater } from '../redux/watchLater/watchLaterActions';
-import {Like,WatchLater} from '../components/statusButtons'
 import React from 'react';
+import {like,watchLater,rating} from '../components/statusButtons'
 function Film({data}){
-    const {favourite,watchLater} = useSelector(state => state)
-    const inFavourite = favourite.idList.includes(data.id)
-    const inWatchLater = watchLater.idList.includes(data.id)
+    const {favourite:favouriteList,watchLater:watchLaterList} = useSelector(state => state)
+    const inFavourite = favouriteList?.idList.includes(data.id)
+    const inWatchLater = watchLaterList?.idList.includes(data.id)
     const dispatch = useDispatch()
-    const film = React.useMemo(()=>FilmBody(data,inFavourite,inWatchLater,dispatch),[data, dispatch, inFavourite, inWatchLater])
+    const likeButton = React.useMemo(() => like(dispatch,inFavourite,data),[data, dispatch, inFavourite])
+    const watchLaterButton = React.useMemo(()=>watchLater(dispatch,inWatchLater,data),[data, dispatch, inWatchLater]) 
+    const rate = React.useMemo(()=>rating(data?.vote_average*10),[data?.vote_average])
+    const film = React.useMemo(()=>FilmBody(data,{
+        likeButton:likeButton??null,
+        watchLaterButton:watchLaterButton??null,
+        rate: rate ?? rating()
+    }),[data, likeButton, rate, watchLaterButton])
     return film
 }
 
-function FilmBody(data,inFavourite,inWatchLater,dispatch){
+function FilmBody(data,ui){
     const imagePath = 'https://image.tmdb.org/t/p/original/'
     const filmImg = data.poster_path?`${imagePath}${data.poster_path}`:filmPlaceHolder
-    const percentage = data.vote_average*10
+    const {likeButton,watchLaterButton,rate} = ui
     return (
             <div className='Film'>
             <Link to={`films/${data.id}`}>
@@ -32,19 +35,9 @@ function FilmBody(data,inFavourite,inWatchLater,dispatch){
                 <p className = 'FilmOverwiew OverFlowText'>{data.overview}</p>
             </Link>
                 <div className='StatusButtonsBlock'>
-                    <button className='StatusButton' onClick={()=>dispatch(inFavourite
-                    ?removeFromFavourite(data) 
-                    : addToFavourite(data))}>
-                        <Like size = '2rem' color={inFavourite ? colors.red : colors.gray80}/>
-                    </button>
-                    <div className='ProgressBar'>
-                        <CircularProgressbar value={percentage} text={`${percentage}%`} />
-                    </div>
-                    <button className='StatusButton' onClick={()=>dispatch(inWatchLater 
-                    ? removeFromWatchLater(data)
-                    : addToWatchLater(data) )}>
-                        <WatchLater size = '2rem' color={inWatchLater ? colors.brightGreen : colors.gray80}/>
-                    </button>
+                    {likeButton}
+                    {rate}
+                    {watchLaterButton}
                 </div>
         </div>
     )

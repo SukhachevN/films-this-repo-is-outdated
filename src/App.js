@@ -3,9 +3,9 @@ import './styles/css/style.css'
 import {DiscoverScreen} from './screens/discover'
 import {NotFoundScreen} from './screens/NotFoundScreen'
 import React from 'react'
-import {getSearchFilms,getDiscoverFilms} from './utils/api-client'
 import {FaSearch} from 'react-icons/fa'
-import { useAsync } from './utils/hooks'
+import { fetchDiscover } from './redux/discover/discoverAcions';
+import { connect } from 'react-redux'
 import {
   BrowserRouter as Router,
   Switch,
@@ -16,6 +16,7 @@ import {
 import { FilmScreen } from './screens/FilmScreen'
 import { FavouriteScreen } from './screens/favourite'
 import { WatchLaterScreen } from './screens/watchLater'
+import { GET_DISCOVER, GET_SEARCH_FILMS } from './redux/discover/discoverSearchTypes';
 
 function NavLink(props){
   const match = useRouteMatch(props.to)
@@ -23,20 +24,19 @@ function NavLink(props){
   {...props} />
 }
 
-function App() {
-  const {data:films,run,isError,error} = useAsync()
-    async function handleSubmit(event){
+function App({data,fetchDiscover}) {
+    function handleSubmit(event){
         event.preventDefault()
         if(event.target.search.value===''){
-          run(getDiscoverFilms('&sort_by=popularity.desc'))
+          fetchDiscover('&sort_by=popularity.desc',GET_DISCOVER)
         }else{
-          run(getSearchFilms(`&query=${encodeURI(event.target.search.value)}`))
+          fetchDiscover(`&query=${encodeURI(event.target.search.value)}`,GET_SEARCH_FILMS)
         }
         
     }
     React.useEffect(()=>{
-      run(getDiscoverFilms('&sort_by=popularity.desc'))
-    },[run])
+      fetchDiscover('&sort_by=popularity.desc',GET_DISCOVER)
+    },[fetchDiscover])
   return (
     <div className='container'>
         <Router>
@@ -61,9 +61,9 @@ function App() {
         </header>
           <Switch>
               <Route exact path="/discover">
-              {isError 
-              ? <div className = 'ErrorMessage'>{error.message}</div> : 
-              <DiscoverScreen films={films}/>}
+              {data.discover.error 
+              ? <div className = 'ErrorMessage'>{data.discover.error.message}</div> : 
+              <DiscoverScreen films={data.discover.data ?? null}/>}
               </Route>
               <Route path="/favourite">
                 <FavouriteScreen/>
@@ -83,4 +83,16 @@ function App() {
   );
 }
 
-export default App;
+const mapStateToProps = state => {
+  return{
+      data: state
+  }
+}
+
+const mapDispatchToProps = dispatch => {
+  return {
+    fetchDiscover: (endpoint,type)=> dispatch(fetchDiscover(endpoint,type))
+  }
+}
+
+export default connect(mapStateToProps,mapDispatchToProps)(App);
