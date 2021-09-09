@@ -19,23 +19,17 @@ function WatchVideo(props){
 }
 
 function like(dispatch,inFavourite,info,isFilmScreen = false){
-    if (!info){
-        return null
-    }
-    return <button className='StatusButton' onClick={()=>dispatch(inFavourite
+    return <button className='StatusButton' onClick={()=>info?.id ? (dispatch(inFavourite
         ?removeFromFavourite(info) 
-        : addToFavourite(info))}>
+        : addToFavourite(info))): null}>
             <Like size = {isFilmScreen ? '2.5rem' : '2rem' } color={inFavourite ? colors.red : colors.gray80}/>
     </button>
 }
 
 function watchLater(dispatch,inWatchLater,info,isFilmScreen = false){
-    if (!info){
-        return null
-    }
-    return <button className='StatusButton' onClick={()=>dispatch(inWatchLater 
+    return <button className='StatusButton' onClick={()=>info?.id ? (dispatch(inWatchLater 
         ? removeFromWatchLater(info)
-        : addToWatchLater(info) )}>
+        : addToWatchLater(info) )):null}>
             <WatchLater size = {isFilmScreen ? '2.5rem' : '2rem' } color={inWatchLater ? colors.brightGreen : colors.gray80}/> 
     </button>
 }

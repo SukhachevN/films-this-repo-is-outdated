@@ -1,7 +1,5 @@
-import { DISCOVER_REQUEST,DISCOVER_SUCCESS,DISCOVER_FAIL } from "./discoverTypes";
+import { DISCOVER_REQUEST,DISCOVER_SUCCESS,DISCOVER_FAIL, GET_DISCOVER, GET_SEARCH_FILMS } from "./discoverTypes";
 import { api_key } from "../api_key";
-import { GET_DISCOVER, GET_FILM_INFO, GET_FILM_TRAILERS, GET_SEARCH_FILMS } from "./discoverSearchTypes";
-
 const fetchDiscoverRequest =  () => {
     return {
         type: DISCOVER_REQUEST
@@ -30,12 +28,6 @@ export const fetchDiscover = (endpoint,type) => {
             break;
         case GET_SEARCH_FILMS:
             link = `https://api.themoviedb.org/3/search/movie?api_key=${api_key}${endpoint}`
-            break;
-        case GET_FILM_INFO:
-            link = `https://api.themoviedb.org/3/movie/${endpoint}?api_key=${api_key}`
-            break;
-        case GET_FILM_TRAILERS:
-            link = `https://api.themoviedb.org/3/movie/${endpoint}/videos?api_key=${api_key}`
             break;
         default:
             throw new Error(`Unsupported fetch type ${type}`);

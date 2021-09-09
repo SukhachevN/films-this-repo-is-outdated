@@ -1,9 +1,7 @@
 import React from 'react'
 import {useParams} from 'react-router-dom'
-import { getFilmInfo,getFilmVideos } from '../utils/api-client'
 import { CircularProgressbar } from 'react-circular-progressbar';
 import filmPlaceHolder from '../img/image-placeholder.jpg'
-import { useAsync } from '../utils/hooks'
 import {NotFoundScreen} from '../screens/NotFoundScreen'
 import * as colors from '../styles/colors'
 import {useSelector, useDispatch} from 'react-redux'
@@ -11,36 +9,37 @@ import { addToFavourite, removeFromFavourite } from '../redux/favourite/faviurit
 import { addToWatchLater, removeFromWatchLater } from '../redux/watchLater/watchLaterActions';
 import {Like,WatchLater,WatchVideo} from '../components/statusButtons'
 import { loadingFilm } from '../components/loadingFilm';
+import {fetchFilmInfo} from '../redux/filmInfo/filmInfoActions'
+import {fetchFilmVideo} from '../redux/filmVideo/filmVideoActions'
 function FilmScreen(){
     const {filmId} = useParams()
-    const {data:info,run:fetchInfo,isLoading:isInfoLoading,isSuccess:isInfoSucces,error} = useAsync()
-    const {data:video,run:fetchVideo,isLoading:isVideoLoading,isSuccess:isVideoSucces} = useAsync()
-    const state = useSelector(state => state)
+    const data = useSelector(state => state)
     const dispatch = useDispatch()
-    const inFavourite = state?.favourite.idList.includes(info?.id)
-    const inWatchLater = state?.watchLater.idList.includes(info?.id)
-    const likeButton = React.useMemo(() => like(dispatch,inFavourite,info),[dispatch, inFavourite, info])
-    const watchLaterButton = React.useMemo(()=>watchLater(dispatch,inWatchLater,info),[dispatch, inWatchLater, info]) 
-    const watchVideoButton = React.useMemo(()=>watchVideo(video?.results[0]?.key),[video?.results])
-    const rate = React.useMemo(()=>rating(info?.vote_average*10),[info?.vote_average])  
+    console.log(data)
+    const inFavourite = data?.favourite.idList.includes(data.filmInfo.info?.id)
+    const inWatchLater = data?.watchLater.idList.includes(data.filmInfo.info?.id)
+    const likeButton = React.useMemo(() => like(dispatch,inFavourite,data.filmInfo.info),[dispatch, inFavourite, data.filmInfo.info])
+    const watchLaterButton = React.useMemo(()=>watchLater(dispatch,inWatchLater,data.filmInfo.info),[dispatch, inWatchLater, data.filmInfo.info]) 
+    const watchVideoButton = React.useMemo(()=>watchVideo(data.filmVideo.video?.results[0]?.key),[data.filmVideo.video?.results])
+    const rate = React.useMemo(()=>rating(data.filmInfo.info?.vote_average*10),[data.filmInfo.info?.vote_average])  
     React.useEffect(()=>{
-        fetchInfo(getFilmInfo(filmId))
-        fetchVideo(getFilmVideos(filmId))
-    },[fetchInfo, fetchVideo, filmId])
-    if(isInfoLoading||isVideoLoading){
-        return Film(loadingFilm)
-    } else if(isInfoSucces && isVideoSucces){
-        return Film(info,{
-            likeButton:likeButton,
-            watchLaterButton:watchLaterButton,
-            watchVideoButton:watchVideoButton,
-            rate:rate
-        })
-    } else {
-       return (<div className='ErrorBlockFilmScreen'>
-       <p className='ErrorMessage ErrorMessageFilmScreen'>{error?error.status_message:null}</p>
-        <NotFoundScreen />
+        dispatch(fetchFilmInfo(filmId))
+        dispatch(fetchFilmVideo(filmId))
+    },[dispatch, filmId])
+    if(data.filmInfo.error){
+        return (<div className='ErrorBlockFilmScreen'>
+        <p className='ErrorMessage ErrorMessageFilmScreen'>{data.filmInfo.error?data.filmInfo.error.status_message:null}</p>
+            <NotFoundScreen />
        </div>)
+    } else if(data.filmInfo.info ===null || data.filmVideo?.video ===null){
+        return Film(loadingFilm)
+    } else {
+       return Film(data.filmInfo.info,{
+        likeButton:likeButton,
+        watchLaterButton:watchLaterButton,
+        watchVideoButton:watchVideoButton,
+        rate:rate
+    })
     }
        
 }
@@ -113,5 +112,5 @@ function Film(data,ui){
     </section>
 }
 
-export {FilmScreen}
+export default FilmScreen
 

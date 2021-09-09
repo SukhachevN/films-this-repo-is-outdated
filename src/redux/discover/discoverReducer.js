@@ -2,7 +2,7 @@ import { DISCOVER_REQUEST,DISCOVER_SUCCESS,DISCOVER_FAIL } from "./discoverTypes
 
 const initialState = {
     isLoading : false,
-    data: null,
+    films: null,
     errror:null
 }
 
@@ -16,7 +16,7 @@ const discoverReducer = (state = initialState, action) => {
         case DISCOVER_SUCCESS:
             return {
                 ...initialState,
-                data: action.payload,
+                films: action.payload,
             } 
         case DISCOVER_FAIL:
             return {
