@@ -25,7 +25,7 @@ function NavLink(props){
 }
 
 function App() {
-  const data = useSelector(state => state)
+  const data = useSelector(state => state.discover)
   const dispatch = useDispatch()
     function handleSubmit(event){
         event.preventDefault()
@@ -38,7 +38,7 @@ function App() {
     }
     React.useEffect(()=>{
       dispatch(fetchDiscover('&sort_by=popularity.desc',GET_DISCOVER))
-    },[data.favourite, dispatch])
+    },[dispatch])
   return (
     <div className='container'>
         <Router>
@@ -63,9 +63,9 @@ function App() {
         </header>
           <Switch>
               <Route exact path="/discover">
-              {data.discover.error 
-              ? <div className = 'ErrorMessage'>{data.discover.error.message}</div> : 
-              <DiscoverScreen films={data.discover.films ?? null}/>}
+              {data.error 
+              ? <div className = 'ErrorMessage'>{data.error.message}</div> : 
+              <DiscoverScreen films={data.films ?? null}/>}
               </Route>
               <Route path="/favourite">
                 <FavouriteScreen/>
