@@ -33,7 +33,7 @@ export const fetchDiscover = (endpoint,type) => {
             throw new Error(`Unsupported fetch type ${type}`);
     }
     return (dispatch) => {
-        dispatch(fetchDiscoverRequest)
+        dispatch(fetchDiscoverRequest())
         return window.fetch(link)
         .then(async response => {
             const films = await response.json()

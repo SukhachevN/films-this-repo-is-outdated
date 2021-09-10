@@ -23,7 +23,7 @@ const fetchFilmInfoFail = error => {
 
 export const fetchFilmInfo = (endpoint) => {
     return (dispatch) => {
-        dispatch(fetchFilmInfoRequest)
+        dispatch(fetchFilmInfoRequest())
         return window.fetch(`https://api.themoviedb.org/3/movie/${endpoint}?api_key=${api_key}`)
         .then(async response => {
             const info = await response.json()

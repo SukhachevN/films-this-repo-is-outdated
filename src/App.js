@@ -38,7 +38,7 @@ function App() {
     }
     React.useEffect(()=>{
       dispatch(fetchDiscover('&sort_by=popularity.desc',GET_DISCOVER))
-    },[dispatch])
+    },[data.favourite, dispatch])
   return (
     <div className='container'>
         <Router>

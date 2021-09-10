@@ -23,7 +23,7 @@ const fetchFilmVideoFail = error => {
 }
 export const fetchFilmVideo = (endpoint) => {
     return (dispatch) => {
-        dispatch(fetchFilmVideoRequest)
+        dispatch(fetchFilmVideoRequest())
         return window.fetch(`https://api.themoviedb.org/3/movie/${endpoint}/videos?api_key=${api_key}`)
         .then(async response => {
             const video = await response.json()
