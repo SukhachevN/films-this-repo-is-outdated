@@ -21,15 +21,15 @@ function Film({data}){
 }
 
 function FilmBody(data,ui){
-    const imagePath = 'https://image.tmdb.org/t/p/original/'
+    const imagePath = 'https://image.tmdb.org/t/p/w300/'
     const filmImg = data.poster_path?`${imagePath}${data.poster_path}`:filmPlaceHolder
     const {likeButton,watchLaterButton,rate} = ui
     return (
-            <div className='Film'>
+            <div className='Film' aria-label={data.title} role='listitem'>
             <Link to={`films/${data.id}`}>
                 <img
                     src={filmImg}
-                    alt={`${data.title} book cover`}
+                    alt={`${data.title} film poster`}
                     className = 'FilmImg'/>
                 <h2 className='FilmH2 OverFlowText'>{data.title}</h2>
                 <p className = 'FilmOverwiew OverFlowText'>{data.overview}</p>
@@ -42,4 +42,4 @@ function FilmBody(data,ui){
         </div>
     )
 }
-export default React.memo(Film)
+export default Film

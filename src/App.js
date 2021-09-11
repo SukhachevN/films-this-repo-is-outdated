@@ -12,7 +12,7 @@ import {
   Link,
   useRouteMatch
 } from "react-router-dom";
-import FilmScreen from './screens/FilmScreen'
+import {FilmScreen} from './screens/FilmScreen'
 import { FavouriteScreen } from './screens/favourite'
 import { WatchLaterScreen } from './screens/watchLater'
 import { GET_DISCOVER, GET_SEARCH_FILMS } from './redux/discover/discoverTypes';
@@ -65,7 +65,7 @@ function App() {
               <Route exact path="/discover">
               {data.error 
               ? <div className = 'ErrorMessage'>{data.error.message}</div> : 
-              <DiscoverScreen films={data.films ?? null}/>}
+                <DiscoverScreen films={data.films ?? null}/>}
               </Route>
               <Route path="/favourite">
                 <FavouriteScreen/>

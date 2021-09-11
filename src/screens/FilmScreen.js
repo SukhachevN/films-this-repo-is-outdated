@@ -83,7 +83,7 @@ function rating(percentage = 0){
 
 function Film(data,ui){
     const {title,overview,release_date,budget,runtime,poster_path,homepage} = data
-    const imagePath = poster_path ?`https://image.tmdb.org/t/p/original/${poster_path}` : filmPlaceHolder
+    const imagePath = poster_path ?`https://image.tmdb.org/t/p/w500/${poster_path}` : filmPlaceHolder
     const {likeButton,watchLaterButton,watchVideoButton,rate} = ui ?? {
         likeButton:null,
         watchLaterButton:null,
@@ -112,5 +112,5 @@ function Film(data,ui){
     </section>
 }
 
-export default FilmScreen
+export {FilmScreen,Film}
 
