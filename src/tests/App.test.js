@@ -2,7 +2,7 @@ import {screen } from '@testing-library/react';
 import { DiscoverScreen } from '../screens/discover';
 import {render} from './render'
 import faker from 'faker'
-import { Film } from '../screens/FilmScreen';
+import { Film, FilmScreen } from '../screens/FilmScreen';
 
 const fakeFilmInfo = {
   results: [{
@@ -45,8 +45,8 @@ test('film info', () => {
   expect(screen.getByText(`Description: ${film.overview}`)).toBeInTheDocument()
   expect(screen.getByText(`Length: ${film.runtime} min`)).toBeInTheDocument()
   expect(screen.getByText(`Budget: ${film.budget} $`)).toBeInTheDocument()
-
-
 });
+
+
 
 
