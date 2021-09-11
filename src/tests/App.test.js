@@ -2,7 +2,7 @@ import {screen } from '@testing-library/react';
 import { DiscoverScreen } from '../screens/discover';
 import {render} from './render'
 import faker from 'faker'
-import { Film, FilmScreen } from '../screens/FilmScreen';
+import { Film } from '../screens/FilmScreen';
 
 const fakeFilmInfo = {
   results: [{
