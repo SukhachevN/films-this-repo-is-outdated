@@ -6,11 +6,11 @@ import { filmInfoReducer } from "./filmInfo/filmInfoReducer";
 import { filmVideoReducer } from "./filmVideo/filmVideoReducer";
 
 const rootReducer = combineReducers({
-    favourite: favouriteReducer,
-    watchLater: watchLaterReducer,
-    discover: discoverReducer,
-    filmInfo: filmInfoReducer,
-    filmVideo: filmVideoReducer
-})
+  favourite: favouriteReducer,
+  watchLater: watchLaterReducer,
+  discover: discoverReducer,
+  filmInfo: filmInfoReducer,
+  filmVideo: filmVideoReducer,
+});
 
-export {rootReducer}
+export { rootReducer };

@@ -1,49 +1,15 @@
 import "normalize.css";
-import "./styles/css/style.css";
-import { DiscoverScreen } from "./screens/discover";
-import { NotFoundScreen } from "./screens/NotFoundScreen";
-import React from "react";
+import "../../styles/css/style.css";
+import { DiscoverScreen } from "../DiscoverScreen";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { NavLink } from "../../components/NavLink";
 import { FaSearch } from "react-icons/fa";
-import { fetchDiscover } from "./redux/discover/discoverAcions";
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  Link,
-  useRouteMatch,
-} from "react-router-dom";
-import { FilmScreen } from "./screens/FilmScreen";
-import { FavouriteScreen } from "./screens/favourite";
-import { WatchLaterScreen } from "./screens/watchLater";
-import { GET_DISCOVER, GET_SEARCH_FILMS } from "./redux/discover/discoverTypes";
-import { useSelector, useDispatch } from "react-redux";
+import { FavouriteScreen } from "../FavouriteScreen";
+import { WatchLaterScreen } from "../WatchLaterScreen";
+import { FilmScreen } from "../FilmScreen";
+import { NotFoundScreen } from "../NotFoundScreen";
 
-function NavLink(props) {
-  const match = useRouteMatch(props.to);
-  return (
-    <Link className={`NavLink ${match ? "NavLinkMatch" : ""}`} {...props} />
-  );
-}
-
-function App() {
-  const data = useSelector((state) => state.discover);
-  const dispatch = useDispatch();
-  function handleSubmit(event) {
-    event.preventDefault();
-    if (event.target.search.value === "") {
-      dispatch(fetchDiscover("&sort_by=popularity.desc", GET_DISCOVER));
-    } else {
-      dispatch(
-        fetchDiscover(
-          `&query=${encodeURI(event.target.search.value)}`,
-          GET_SEARCH_FILMS
-        )
-      );
-    }
-  }
-  React.useEffect(() => {
-    dispatch(fetchDiscover("&sort_by=popularity.desc", GET_DISCOVER));
-  }, [dispatch]);
+function AppView({ handleSubmit, data }) {
   return (
     <div className='container'>
       <Router>
@@ -72,7 +38,7 @@ function App() {
             {data.error ? (
               <div className='ErrorMessage'>{data.error.message}</div>
             ) : (
-              <DiscoverScreen films={data.films ?? null} />
+              <DiscoverScreen />
             )}
           </Route>
           <Route path='/favourite'>
@@ -93,4 +59,4 @@ function App() {
   );
 }
 
-export default App;
+export { AppView };
