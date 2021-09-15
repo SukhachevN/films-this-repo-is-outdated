@@ -1,6 +1,7 @@
 {
   "extends": ["airbnb", "prettier", "plugin:node/recommended"],
   "plugins": ["prettier"],
+  "parser": "@babel/eslint-parser",
   "rules": {
     "no-unused-vars": "warn",
     "no-console": "off",
@@ -8,7 +9,6 @@
     "no-process-exit": "off",
     "object-shorthand": "off",
     "class-methods-use-this": "off",
-    "prettier/prettier": "off",
     "node/no-unsupported-features/es-syntax": [
       "off",
       { "ignores": ["modules"] }
@@ -20,15 +20,25 @@
     "react/jsx-props-no-spreading": "off",
     "camelcase": "off",
     "react/button-has-type": "off",
-    "arrow-body-style": "off",
-    "no-shadow": "off",
     "react/no-array-index-key": "off",
-    "react/jsx-no-bind": "off",
-    "jsx-a11y/label-has-associated-control": "off",
-    "no-case-declarations": "off",
-    "react/destructuring-assignment": "off",
+    "jsx-a11y/label-has-associated-control": [
+      "error",
+      {
+        "required": {
+          "some": ["nesting", "id"]
+        }
+      }
+    ],
+    "jsx-a11y/label-has-for": [
+      "error",
+      {
+        "required": {
+          "some": ["nesting", "id"]
+        }
+      }
+    ],
     "no-func-assign": "off",
-    "spaced-comment": "off"
+    "spaced-comment": "warn"
   },
   "env": {
     "browser": true,
@@ -36,6 +46,9 @@
   },
   "parserOptions": {
     "sourceType": "module",
-    "requireConfigFile": false
+    "requireConfigFile": false,
+    "babelOptions": {
+      "presets": ["@babel/preset-react"]
+    }
   }
 }

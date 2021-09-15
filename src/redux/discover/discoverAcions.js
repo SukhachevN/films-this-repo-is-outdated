@@ -7,25 +7,19 @@ import {
 } from "./discoverTypes";
 import { api_key } from "../api_key";
 
-const fetchDiscoverRequest = () => {
-  return {
-    type: DISCOVER_REQUEST,
-  };
-};
+const fetchDiscoverRequest = () => ({
+  type: DISCOVER_REQUEST,
+});
 
-const fetchDiscoverSuccess = (films) => {
-  return {
-    type: DISCOVER_SUCCESS,
-    payload: films,
-  };
-};
+const fetchDiscoverSuccess = (films) => ({
+  type: DISCOVER_SUCCESS,
+  payload: films,
+});
 
-const fetchDiscoverFail = (error) => {
-  return {
-    type: DISCOVER_FAIL,
-    payload: error,
-  };
-};
+const fetchDiscoverFail = (error) => ({
+  type: DISCOVER_FAIL,
+  payload: error,
+});
 
 export const fetchDiscover = (endpoint, type) => {
   let link;

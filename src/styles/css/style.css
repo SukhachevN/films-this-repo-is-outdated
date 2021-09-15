@@ -43,7 +43,7 @@ code {
 
 .Header {
   width: 100%;
-  margin: 0 auto 50px 0;
+  margin: 0 auto;
 }
 
 .HeaderNav {
@@ -51,6 +51,12 @@ code {
   justify-content: center;
   gap: 20px;
   padding: 40px 0;
+}
+
+.PageContent {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
 }
 
 .SearchForm {
@@ -66,6 +72,7 @@ code {
   padding: 8px 12px;
   width: 90%;
   border-radius: 3px 0 0 3px;
+  height: 40px;
 }
 
 .SearchLabel {
@@ -85,6 +92,25 @@ code {
   color: #ef5350;
 }
 
+.Spinner {
+  animation: spin 1s linear infinite;
+}
+
+.FullPageSpinner {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
 /*-------------------------------------------FILMS---------------------------------------------------------------*/
 .FilmContainer {
   display: flex;
@@ -309,4 +335,5 @@ code {
 
 .NoFilms {
   padding: 0 10px;
+  text-align: center;
 }

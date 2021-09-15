@@ -12,13 +12,16 @@ function appMiddleware(state) {
     const { dispatch } = state;
     switch (action.type) {
       case LOAD_APP:
-        const data = {
-          favourite:
-            JSON.parse(window.localStorage.getItem("favourite")) || emptyState,
-          watchLater:
-            JSON.parse(window.localStorage.getItem("watchLater")) || emptyState,
-        };
-        dispatch(appLoaded(data));
+        dispatch(
+          appLoaded({
+            favourite:
+              JSON.parse(window.localStorage.getItem("favourite")) ||
+              emptyState,
+            watchLater:
+              JSON.parse(window.localStorage.getItem("watchLater")) ||
+              emptyState,
+          })
+        );
         break;
       default:
         break;

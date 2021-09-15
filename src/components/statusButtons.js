@@ -1,4 +1,4 @@
-import { memo } from "react";
+import React, { memo } from "react";
 import {
   BsFillHeartFill,
   BsFillClockFill,
@@ -9,6 +9,27 @@ import { addToFavourite, removeFromFavourite } from "../redux/favourite";
 import { addToWatchLater, removeFromWatchLater } from "../redux/watchLater";
 import { comparator } from "../utils/comparator";
 import * as colors from "../styles/colors";
+
+function Heart({ ...props }) {
+  return <BsFillHeartFill {...props} />;
+}
+
+function Clock({ ...props }) {
+  return <BsFillClockFill {...props} />;
+}
+
+function TV({ ...props }) {
+  return <BsDisplayFill {...props} />;
+}
+
+function Rate({ ...props }) {
+  return <CircularProgressbar {...props} />;
+}
+
+Heart = memo(Heart, comparator);
+Clock = memo(Clock, comparator);
+TV = memo(TV, comparator);
+Rate = memo(Rate, comparator);
 
 function Like({ dispatch, inFavourite, info, isFilmScreen = false }) {
   return (
@@ -22,7 +43,7 @@ function Like({ dispatch, inFavourite, info, isFilmScreen = false }) {
           : null
       }
     >
-      <BsFillHeartFill
+      <Heart
         aria-label="add to favourite"
         size={isFilmScreen ? "2.5rem" : "2rem"}
         color={inFavourite ? colors.red : colors.gray80}
@@ -43,7 +64,7 @@ function WatchLater({ dispatch, inWatchLater, info, isFilmScreen = false }) {
           : null
       }
     >
-      <BsFillClockFill
+      <Clock
         aria-label="add to watch later list"
         size={isFilmScreen ? "2.5rem" : "2rem"}
         color={inWatchLater ? colors.brightGreen : colors.gray80}
@@ -60,10 +81,7 @@ function WatchVideo({ VideoKey, isFilmScreen = false }) {
     <button className="StatusButton">
       {VideoKey ? (
         <a href={`https://www.youtube.com/watch?v=${VideoKey}`}>
-          <BsDisplayFill
-            size={isFilmScreen ? "2.5rem" : "2rem"}
-            color={colors.gray80}
-          />
+          <TV size={isFilmScreen ? "2.5rem" : "2rem"} color={colors.gray80} />
         </a>
       ) : null}
     </button>
@@ -75,7 +93,7 @@ function Rating({ percentage = 0, isFilmScreen = false }) {
     <div
       className={`ProgressBar ${isFilmScreen ? "ProgressBarFilmScreen" : ""}`}
     >
-      <CircularProgressbar value={percentage} text={`${percentage}%`} />
+      <Rate value={percentage} text={`${percentage}%`} />
     </div>
   );
 }

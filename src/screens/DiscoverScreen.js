@@ -13,14 +13,10 @@ function DiscoverScreen() {
     <main>
       <div className="FilmContainer">
         {loading &&
-          loadingFilms.map((film, index) => {
-            return <Film data={film} key={index} />;
-          })}
+          loadingFilms.map((film, index) => <Film data={film} key={index} />)}
         {!loading &&
           films &&
-          films.results.map((film) => {
-            return <Film data={film} key={film.id} />;
-          })}
+          films.results.map((film) => <Film data={film} key={film.id} />)}
       </div>
     </main>
   );

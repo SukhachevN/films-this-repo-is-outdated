@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import { Spinner } from "../../components/Spinner";
 import { fetchDiscover, GET_DISCOVER, GET_SEARCH_FILMS } from "../../redux";
 import { loadApp } from "../../redux/app";
 import { initializeFavourite } from "../../redux/favourite";
@@ -27,7 +28,6 @@ function AppContainer() {
     dispatch(loadApp());
   }, []);
   useEffect(() => {
-    console.log(initialized && data.app.favourite);
     if (initialized) {
       dispatch(initializeFavourite(data.app.favourite));
       dispatch(initializeWatchLater(data.app.watchLater));
@@ -36,8 +36,8 @@ function AppContainer() {
   useEffect(() => {
     dispatch(fetchDiscover("&sort_by=popularity.desc", GET_DISCOVER));
   }, [dispatch]);
-  if (data.app.loading) {
-    return <div>loading</div>;
+  if (!initialized) {
+    return <Spinner />;
   }
   return <AppView handleSubmit={handleSubmit} data={data.discover} />;
 }

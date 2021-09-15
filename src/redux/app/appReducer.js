@@ -1,7 +1,6 @@
 import { LOAD_APP, APP_LOADED } from "./appTypes";
 
 const initialState = {
-  loading: false,
   initialized: false,
   favoutite: {
     dataList: [],
@@ -18,11 +17,9 @@ const appReducer = (state = initialState, action) => {
     case LOAD_APP:
       return {
         ...initialState,
-        loading: true,
       };
     case APP_LOADED:
       return {
-        loading: false,
         initialized: true,
         favourite: {
           dataList: action.payload.favourite.dataList,

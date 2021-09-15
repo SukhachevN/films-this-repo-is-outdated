@@ -4,25 +4,19 @@ import {
   REMOVE_FROM_FAVOURITE,
 } from "./favouriteTypes";
 
-const addToFavourite = (film) => {
-  return {
-    type: ADD_TO_FAVOURITE,
-    payload: film,
-  };
-};
+const addToFavourite = (film) => ({
+  type: ADD_TO_FAVOURITE,
+  payload: film,
+});
 
-const removeFromFavourite = (film) => {
-  return {
-    type: REMOVE_FROM_FAVOURITE,
-    payload: film,
-  };
-};
+const removeFromFavourite = (film) => ({
+  type: REMOVE_FROM_FAVOURITE,
+  payload: film,
+});
 
-const initializeFavourite = (data) => {
-  return {
-    type: INITIALIZE_FAVOURITE,
-    payload: data,
-  };
-};
+const initializeFavourite = (data) => ({
+  type: INITIALIZE_FAVOURITE,
+  payload: data,
+});
 
 export { addToFavourite, removeFromFavourite, initializeFavourite };

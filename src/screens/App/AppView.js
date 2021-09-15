@@ -1,13 +1,15 @@
 import "normalize.css";
 import "../../styles/css/style.css";
+import { memo } from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import { FaSearch } from "react-icons/fa";
 import { DiscoverScreen } from "../DiscoverScreen";
 import { NavLink } from "../../components/NavLink";
 import { FavouriteScreen } from "../FavouriteScreen";
 import { WatchLaterScreen } from "../WatchLaterScreen";
 import { FilmScreen } from "../FilmScreen";
 import { NotFoundScreen } from "../NotFoundScreen";
+import { comparator } from "../../utils/comparator";
+import { SearchForm } from "../../components/SearchForm";
 
 function AppView({ handleSubmit, data }) {
   return (
@@ -19,44 +21,48 @@ function AppView({ handleSubmit, data }) {
             <NavLink to="/favourite">Favourite</NavLink>
             <NavLink to="/watchLater">Watch later</NavLink>
           </nav>
-          <form onSubmit={handleSubmit} className="SearchForm">
-            <input
-              className="SearchInput"
-              placeholder="Search film..."
-              id="search"
-              type="search"
-            />
-            <label htmlFor="search" className="SearchLabel">
-              <button type="submit" className="SearchButton">
-                <FaSearch aria-label="search" />
-              </button>
-            </label>
-          </form>
         </header>
         <Switch>
           <Route exact path="/discover">
             {data.error ? (
               <div className="ErrorMessage">{data.error.message}</div>
             ) : (
-              <DiscoverScreen />
+              <div className="PageContent">
+                <SearchForm handleSubmit={handleSubmit} />
+                <DiscoverScreen />
+              </div>
             )}
           </Route>
           <Route path="/favourite">
-            <FavouriteScreen />
+            <div className="PageContent">
+              <div className="NoFilms">
+                Here you will see films, which you add to favourite
+              </div>
+              <FavouriteScreen />
+            </div>
           </Route>
           <Route path="/watchLater">
-            <WatchLaterScreen />
+            <div className="PageContent">
+              <div className="NoFilms">
+                Here you will see films, which you add to watch later list
+              </div>
+              <WatchLaterScreen />
+            </div>
           </Route>
           <Route path="/films/:filmId">
             <FilmScreen />
           </Route>
           <Route path="*">
-            <NotFoundScreen />
+            <div className="PageContent">
+              <NotFoundScreen />
+            </div>
           </Route>
         </Switch>
       </Router>
     </div>
   );
 }
+
+AppView = memo(AppView, comparator);
 
 export { AppView };
