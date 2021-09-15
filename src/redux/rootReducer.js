@@ -1,9 +1,10 @@
 import { combineReducers } from "redux";
-import { favouriteReducer } from "./favourite/favouriteReducer";
-import { watchLaterReducer } from "./watchLater/watchLaterReducer";
-import { discoverReducer } from "./discover/discoverReducer";
-import { filmInfoReducer } from "./filmInfo/filmInfoReducer";
-import { filmVideoReducer } from "./filmVideo/filmVideoReducer";
+import { favouriteReducer } from "./favourite";
+import { watchLaterReducer } from "./watchLater";
+import { discoverReducer } from "./discover";
+import { filmInfoReducer } from "./filmInfo";
+import { filmVideoReducer } from "./filmVideo";
+import { appReducer } from "./app/appReducer";
 
 const rootReducer = combineReducers({
   favourite: favouriteReducer,
@@ -11,6 +12,7 @@ const rootReducer = combineReducers({
   discover: discoverReducer,
   filmInfo: filmInfoReducer,
   filmVideo: filmVideoReducer,
+  app: appReducer,
 });
 
 export { rootReducer };

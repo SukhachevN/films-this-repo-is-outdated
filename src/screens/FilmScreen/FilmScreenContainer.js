@@ -1,10 +1,9 @@
-import { FilmScreenView } from "./FilmScreenView";
-import { useParams } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
 import { useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { useParams } from "react-router-dom";
+import { FilmScreenView } from "./FilmScreenView";
 import { NotFoundScreen } from "../NotFoundScreen";
-import { fetchFilmInfo } from "../../redux/filmInfo/filmInfoActions";
-import { fetchFilmVideo } from "../../redux/filmVideo/filmVideoActions";
+import { fetchFilmInfo, fetchFilmVideo } from "../../redux";
 
 function FilmScreenContainer() {
   const { filmId } = useParams();
@@ -19,8 +18,8 @@ function FilmScreenContainer() {
   }, [dispatch, filmId]);
   if (data.filmInfo.error) {
     return (
-      <div className='ErrorBlockFilmScreen'>
-        <p className='ErrorMessage ErrorMessageFilmScreen'>
+      <div className="ErrorBlockFilmScreen">
+        <p className="ErrorMessage ErrorMessageFilmScreen">
           {data.filmInfo.error ? data.filmInfo.error.status_message : null}
         </p>
         <NotFoundScreen />

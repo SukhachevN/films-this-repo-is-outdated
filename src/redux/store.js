@@ -1,8 +1,20 @@
 import { createStore, applyMiddleware } from "redux";
 import logger from "redux-logger";
-import { rootReducer } from "./rootReducer";
 import thunk from "redux-thunk";
+import { updateFavouriteLocalStorage } from "./favourite";
+import { updateWatchLaterLocalStorage } from "./watchLater";
+import { appMiddleware } from "./app";
+import { rootReducer } from "./rootReducer";
 
-const store = createStore(rootReducer, applyMiddleware(logger, thunk));
+const store = createStore(
+  rootReducer,
+  applyMiddleware(
+    logger,
+    thunk,
+    updateFavouriteLocalStorage,
+    updateWatchLaterLocalStorage,
+    appMiddleware
+  )
+);
 
 export { store };

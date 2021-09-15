@@ -29,30 +29,30 @@ function FilmScreenView({
     runtime,
     poster_path,
     homepage,
-  } = data.filmInfo?.info;
+  } = data.filmInfo.info;
   const imagePath = poster_path
     ? `https://image.tmdb.org/t/p/w500/${poster_path}`
     : filmPlaceHolder;
   return (
-    <section className='FilmScreenSection'>
-      <h1 className='FilmScreenH1'>{title}</h1>
-      <div className='FilmScreenContent'>
+    <section className="FilmScreenSection">
+      <h1 className="FilmScreenH1">{title}</h1>
+      <div className="FilmScreenContent">
         <img
           src={imagePath}
           alt={`${title} poster`}
-          className='FilmScreenImg'
+          className="FilmScreenImg"
         />
-        <ul className='FilmScreenPropertiesList'>
-          <li>Release date: {release_date ?? "unknown"}</li>
+        <ul className="FilmScreenPropertiesList">
+          <li>Release date: {release_date || "unknown"}</li>
           <li>
             Budget:{" "}
             {budget !== null && budget !== 0 ? `${budget} $` : "unknown"}
           </li>
-          <li>Length: {runtime ?? "unknown"} min</li>
+          <li>Length: {runtime || "unknown"} min</li>
           <li>
             Site:{" "}
             {homepage ? (
-              <a className='SiteLink' href={homepage}>
+              <a className="SiteLink" href={homepage}>
                 {homepage}
               </a>
             ) : (
@@ -60,27 +60,27 @@ function FilmScreenView({
             )}
           </li>
           <li>Description: {overview}</li>
-          <div className='StatusButtonsBlock StatusButtonBlockFilmScreen'>
+          <div className="StatusButtonsBlock StatusButtonBlockFilmScreen">
             <Like
               dispatch={dispatch}
               inFavourite={inFavourite}
               info={data?.filmInfo?.info}
-              isFilmScreen={true}
+              isFilmScreen="true"
             />
             <WatchLater
               dispatch={dispatch}
               inWatchLater={inWatchLater}
               info={data?.filmInfo?.info}
-              isFilmScreen={true}
+              isFilmScreen="true"
             />
             <WatchVideo
               VideoKey={data?.filmVideo?.video?.results[0]?.key}
-              isFilmScreen={true}
+              isFilmScreen="true"
             />
           </div>
           <Rating
             percentage={data?.filmInfo?.info?.vote_average * 10}
-            isFilmScreen={true}
+            isFilmScreen="true"
           />
         </ul>
       </div>

@@ -1,30 +1,33 @@
-import { ADD_TO_FAVOURITE, REMOVE_FROM_FAVOURITE } from "./favouriteTypes";
-
-const initial = JSON.parse(window.localStorage.getItem("favourite"));
+import {
+  ADD_TO_FAVOURITE,
+  INITIALIZE_FAVOURITE,
+  REMOVE_FROM_FAVOURITE,
+} from "./favouriteTypes";
 
 const initialState = {
-  idList: initial?.idList ?? [],
-  dataList: initial?.dataList ?? [],
+  idList: [],
+  dataList: [],
 };
 
 const favouriteReducer = (state = initialState, action) => {
   switch (action.type) {
+    case INITIALIZE_FAVOURITE:
+      return {
+        idList: action.payload.idList,
+        dataList: action.payload.dataList,
+      };
     case ADD_TO_FAVOURITE:
-      state = {
+      return {
         idList: [...state.idList, action.payload.id],
         dataList: [...state.dataList, action.payload],
       };
-      window.localStorage.setItem("favourite", JSON.stringify(state));
-      return state;
     case REMOVE_FROM_FAVOURITE:
-      state = {
+      return {
         idList: state.idList.filter((id) => id !== action.payload.id),
         dataList: state.dataList.filter(
           (film) => film.id !== action.payload.id
         ),
       };
-      window.localStorage.setItem("favourite", JSON.stringify(state));
-      return state;
     default:
       return state;
   }

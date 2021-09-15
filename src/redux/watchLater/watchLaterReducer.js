@@ -1,30 +1,33 @@
-import { ADD_TO_WATCH_LATER, REMOVE_FROM_WATCH_LATER } from "./watchLaterTypes";
-
-const initial = JSON.parse(window.localStorage.getItem("watchLater"));
+import {
+  ADD_TO_WATCH_LATER,
+  REMOVE_FROM_WATCH_LATER,
+  INITIALIZE_WATCH_LATER,
+} from "./watchLaterTypes";
 
 const initialState = {
-  idList: initial?.idList ?? [],
-  dataList: initial?.dataList ?? [],
+  idList: [],
+  dataList: [],
 };
 
 const watchLaterReducer = (state = initialState, action) => {
   switch (action.type) {
+    case INITIALIZE_WATCH_LATER:
+      return {
+        idList: action.payload.idList,
+        dataList: action.payload.dataList,
+      };
     case ADD_TO_WATCH_LATER:
-      state = {
+      return {
         idList: [...state.idList, action.payload.id],
         dataList: [...state.dataList, action.payload],
       };
-      window.localStorage.setItem("watchLater", JSON.stringify(state));
-      return state;
     case REMOVE_FROM_WATCH_LATER:
-      state = {
+      return {
         idList: state.idList.filter((id) => id !== action.payload.id),
         dataList: state.dataList.filter(
           (film) => film.id !== action.payload.id
         ),
       };
-      window.localStorage.setItem("watchLater", JSON.stringify(state));
-      return state;
     default:
       return state;
   }

@@ -1,0 +1,41 @@
+{
+  "extends": ["airbnb", "prettier", "plugin:node/recommended"],
+  "plugins": ["prettier"],
+  "rules": {
+    "no-unused-vars": "warn",
+    "no-console": "off",
+    "func-names": "off",
+    "no-process-exit": "off",
+    "object-shorthand": "off",
+    "class-methods-use-this": "off",
+    "prettier/prettier": "off",
+    "node/no-unsupported-features/es-syntax": [
+      "off",
+      { "ignores": ["modules"] }
+    ],
+    "import/prefer-default-export": "off",
+    "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
+    "react/prop-types": 0,
+    "react/react-in-jsx-scope": "off",
+    "react/jsx-props-no-spreading": "off",
+    "camelcase": "off",
+    "react/button-has-type": "off",
+    "arrow-body-style": "off",
+    "no-shadow": "off",
+    "react/no-array-index-key": "off",
+    "react/jsx-no-bind": "off",
+    "jsx-a11y/label-has-associated-control": "off",
+    "no-case-declarations": "off",
+    "react/destructuring-assignment": "off",
+    "no-func-assign": "off",
+    "spaced-comment": "off"
+  },
+  "env": {
+    "browser": true,
+    "node": true
+  },
+  "parserOptions": {
+    "sourceType": "module",
+    "requireConfigFile": false
+  }
+}

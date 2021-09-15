@@ -1,4 +1,8 @@
-import { ADD_TO_FAVOURITE, REMOVE_FROM_FAVOURITE } from "./favouriteTypes";
+import {
+  ADD_TO_FAVOURITE,
+  INITIALIZE_FAVOURITE,
+  REMOVE_FROM_FAVOURITE,
+} from "./favouriteTypes";
 
 const addToFavourite = (film) => {
   return {
@@ -14,4 +18,11 @@ const removeFromFavourite = (film) => {
   };
 };
 
-export { addToFavourite, removeFromFavourite };
+const initializeFavourite = (data) => {
+  return {
+    type: INITIALIZE_FAVOURITE,
+    payload: data,
+  };
+};
+
+export { addToFavourite, removeFromFavourite, initializeFavourite };

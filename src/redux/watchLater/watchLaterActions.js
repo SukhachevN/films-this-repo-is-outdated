@@ -1,4 +1,8 @@
-import { ADD_TO_WATCH_LATER, REMOVE_FROM_WATCH_LATER } from "./watchLaterTypes";
+import {
+  ADD_TO_WATCH_LATER,
+  INITIALIZE_WATCH_LATER,
+  REMOVE_FROM_WATCH_LATER,
+} from "./watchLaterTypes";
 
 const addToWatchLater = (film) => {
   return {
@@ -14,4 +18,11 @@ const removeFromWatchLater = (film) => {
   };
 };
 
-export { addToWatchLater, removeFromWatchLater };
+const initializeWatchLater = (data) => {
+  return {
+    type: INITIALIZE_WATCH_LATER,
+    payload: data,
+  };
+};
+
+export { addToWatchLater, removeFromWatchLater, initializeWatchLater };

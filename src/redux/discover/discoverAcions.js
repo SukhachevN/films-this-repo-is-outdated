@@ -6,6 +6,7 @@ import {
   GET_SEARCH_FILMS,
 } from "./discoverTypes";
 import { api_key } from "../api_key";
+
 const fetchDiscoverRequest = () => {
   return {
     type: DISCOVER_REQUEST,

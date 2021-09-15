@@ -1,6 +1,6 @@
 import { useSelector } from "react-redux";
 import { loadingFilm } from "../components/loadingFilm";
-import Film from "./Film";
+import { Film } from "./Film";
 import { NotFoundScreen } from "./NotFoundScreen";
 
 function DiscoverScreen() {
@@ -11,7 +11,7 @@ function DiscoverScreen() {
   const loadingFilms = Array(20).fill(loadingFilm);
   return (
     <main>
-      <div className='FilmContainer'>
+      <div className="FilmContainer">
         {loading &&
           loadingFilms.map((film, index) => {
             return <Film data={film} key={index} />;
