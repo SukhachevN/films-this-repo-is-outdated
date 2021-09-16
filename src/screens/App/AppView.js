@@ -35,7 +35,7 @@ function AppView({ handleSubmit, data }) {
           </Route>
           <Route path="/favourite">
             <div className="PageContent">
-              <div className="NoFilms">
+              <div className="PageDescription">
                 Here you will see films, which you add to favourite
               </div>
               <FavouriteScreen />
@@ -43,7 +43,7 @@ function AppView({ handleSubmit, data }) {
           </Route>
           <Route path="/watchLater">
             <div className="PageContent">
-              <div className="NoFilms">
+              <div className="PageDescription">
                 Here you will see films, which you add to watch later list
               </div>
               <WatchLaterScreen />

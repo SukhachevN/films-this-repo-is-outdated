@@ -14,3 +14,4 @@ export const orange = "orange";
 export const blue = "#e8f0fe";
 export const red = "red";
 export const brightGreen = "green";
+export const placeholderGray = "#8e8e8e";

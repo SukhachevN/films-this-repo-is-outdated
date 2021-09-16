@@ -14,11 +14,11 @@ $orange: orange;
 $blue: #e8f0fe;
 $red: red;
 $brightGreen: green;
-$extraLarge: 1200px; //(min-width: 1200px);
-$large: 992px; //(min-width: 992px) and (max-width: 1199px);
-$medium: 768px; //(min-width: 768px) and (max-width: 992px);
-$small: 300px; //(min-width: 301px) and (max-width: 767px);
-//$ultraSmall : (max-width: 300px);
+$placeholderGray: #8e8e8e;
+$extraLarge: 1200px;
+$large: 992px;
+$medium: 768px;
+$small: 300px;
 
 /*--------------------------------------------------------HEADER----------------------------------------------------------*/
 
@@ -82,6 +82,7 @@ code {
 .PageContent {
   display: flex;
   flex-direction: column;
+  align-items: center;
   gap: 40px;
 }
 
@@ -335,7 +336,14 @@ code {
   cursor: pointer;
 }
 
-.NoFilms {
-  padding: 0 10px;
-  text-align: center;
+.PageDescription {
+  display: flex;
+  justify-content: center;
+  border: 1px solid $gray10;
+  background: $blue;
+  padding: 8px 12px;
+  width: 80%;
+  border-radius: 3px;
+  height: 40px;
+  color: $placeholderGray;
 }
