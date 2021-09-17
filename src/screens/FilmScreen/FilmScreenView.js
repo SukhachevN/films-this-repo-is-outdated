@@ -33,6 +33,7 @@ function FilmScreenView({
   const imagePath = poster_path
     ? `https://image.tmdb.org/t/p/w500/${poster_path}`
     : filmPlaceHolder;
+  const haveBudget = Boolean(budget);
   return (
     <section className="FilmScreenSection">
       <h1 className="FilmScreenH1">{title}</h1>
@@ -44,10 +45,7 @@ function FilmScreenView({
         />
         <ul className="FilmScreenPropertiesList">
           <li>Release date: {release_date || "unknown"}</li>
-          <li>
-            Budget:{" "}
-            {budget !== null && budget !== 0 ? `${budget} $` : "unknown"}
-          </li>
+          <li>Budget: {haveBudget ? `${budget} $` : "unknown"}</li>
           <li>Length: {runtime || "unknown"} min</li>
           <li>
             Site:{" "}

@@ -1,13 +1,13 @@
 import { useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
 import { FilmScreenView } from "./FilmScreenView";
 import { NotFoundScreen } from "../NotFoundScreen";
-import { fetchFilmInfo, fetchFilmVideo } from "../../redux";
+import { fetchFilmInfo, fetchFilmVideo, useGlobalState } from "../../redux";
 
 function FilmScreenContainer() {
   const { filmId } = useParams();
-  const data = useSelector((state) => state);
+  const data = useGlobalState();
   const dispatch = useDispatch();
   const inFavourite = data?.favourite.idList.includes(data.filmInfo.info?.id);
   const inWatchLater = data?.watchLater.idList.includes(data.filmInfo.info?.id);
@@ -16,6 +16,7 @@ function FilmScreenContainer() {
     dispatch(fetchFilmInfo(filmId));
     dispatch(fetchFilmVideo(filmId));
   }, [dispatch, filmId]);
+
   if (data.filmInfo.error) {
     return (
       <div className="ErrorBlockFilmScreen">

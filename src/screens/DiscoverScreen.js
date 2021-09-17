@@ -1,10 +1,10 @@
-import { useSelector } from "react-redux";
 import { loadingFilm } from "../components/loadingFilm";
+import { useDiscover } from "../redux";
 import { Film } from "./Film";
 import { NotFoundScreen } from "./NotFoundScreen";
 
 function DiscoverScreen() {
-  const { films, loading } = useSelector((state) => state.discover);
+  const { films, loading } = useDiscover();
   if (films?.results?.length === 0) {
     return <NotFoundScreen />;
   }

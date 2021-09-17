@@ -10,19 +10,19 @@ import { addToWatchLater, removeFromWatchLater } from "../redux/watchLater";
 import { comparator } from "../utils/comparator";
 import * as colors from "../styles/colors";
 
-function Heart({ ...props }) {
+function Heart(props) {
   return <BsFillHeartFill {...props} />;
 }
 
-function Clock({ ...props }) {
+function Clock(props) {
   return <BsFillClockFill {...props} />;
 }
 
-function TV({ ...props }) {
+function TV(props) {
   return <BsDisplayFill {...props} />;
 }
 
-function Rate({ ...props }) {
+function Rate(props) {
   return <CircularProgressbar {...props} />;
 }
 

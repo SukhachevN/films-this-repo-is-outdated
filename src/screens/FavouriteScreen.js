@@ -1,8 +1,8 @@
-import { useSelector } from "react-redux";
+import { useFavourute } from "../redux";
 import { Film } from "./Film";
 
 function FavouriteScreen() {
-  const films = useSelector((state) => state.favourite.dataList);
+  const { dataList: films } = useFavourute();
   return (
     <main>
       <div className="FilmContainer">

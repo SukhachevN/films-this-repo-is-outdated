@@ -38,7 +38,8 @@
       }
     ],
     "no-func-assign": "off",
-    "spaced-comment": "warn"
+    "spaced-comment": "warn",
+    "react/jsx-no-bind": "off"
   },
   "env": {
     "browser": true,

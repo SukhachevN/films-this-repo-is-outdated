@@ -1,8 +1,8 @@
-import { useSelector } from "react-redux";
+import { useWatchLater } from "../redux";
 import { Film } from "./Film";
 
 function WatchLaterScreen() {
-  const films = useSelector((state) => state.watchLater.dataList);
+  const { dataList: films } = useWatchLater();
   return (
     <main>
       <div className="FilmContainer">

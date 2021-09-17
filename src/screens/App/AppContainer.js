@@ -1,14 +1,19 @@
 import { useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import { Spinner } from "../../components/Spinner";
-import { fetchDiscover, GET_DISCOVER, GET_SEARCH_FILMS } from "../../redux";
+import {
+  fetchDiscover,
+  GET_DISCOVER,
+  GET_SEARCH_FILMS,
+  useGlobalState,
+} from "../../redux";
 import { loadApp } from "../../redux/app";
 import { initializeFavourite } from "../../redux/favourite";
 import { initializeWatchLater } from "../../redux/watchLater";
 import { AppView } from "./AppView";
 
 function AppContainer() {
-  const data = useSelector((state) => state);
+  const data = useGlobalState();
   const { initialized } = data.app;
   const dispatch = useDispatch();
   function handleSubmit(event) {
