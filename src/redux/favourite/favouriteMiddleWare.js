@@ -1,5 +1,8 @@
-import { INITIALIZE_FAVOURITE } from ".";
-import { ADD_TO_FAVOURITE, REMOVE_FROM_FAVOURITE } from "./favouriteTypes";
+import {
+  INITIALIZE_FAVOURITE,
+  ADD_TO_FAVOURITE,
+  REMOVE_FROM_FAVOURITE,
+} from "./favouriteTypes";
 
 const favouriteKey = "favourite";
 
