@@ -5,18 +5,24 @@ import { NotFoundScreen } from "./NotFoundScreen";
 
 function DiscoverScreen() {
   const { films, loading } = useDiscover();
+
   if (films?.results?.length === 0) {
     return <NotFoundScreen />;
   }
+
   const loadingFilms = Array(20).fill(loadingFilm);
+  const loadingPart =
+    loading &&
+    loadingFilms.map((film, index) => <Film data={film} key={index} />);
+  const readyPart =
+    !loading &&
+    films &&
+    films.results.map((film) => <Film data={film} key={film.id} />);
   return (
     <main>
       <div className="FilmContainer">
-        {loading &&
-          loadingFilms.map((film, index) => <Film data={film} key={index} />)}
-        {!loading &&
-          films &&
-          films.results.map((film) => <Film data={film} key={film.id} />)}
+        {loadingPart}
+        {readyPart}
       </div>
     </main>
   );

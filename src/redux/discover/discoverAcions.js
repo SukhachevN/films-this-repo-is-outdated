@@ -6,6 +6,7 @@ import {
   GET_SEARCH_FILMS,
 } from "./discoverTypes";
 import { api_key } from "../api_key";
+import { fetchFilmsRequest } from "../fetchFilmsRequest";
 
 const fetchDiscoverRequest = () => ({
   type: DISCOVER_REQUEST,
@@ -33,17 +34,12 @@ export const fetchDiscover = (endpoint, type) => {
     default:
       throw new Error(`Unsupported fetch type ${type}`);
   }
-  return (dispatch) => {
-    dispatch(fetchDiscoverRequest());
-    return window
-      .fetch(link)
-      .then(async (response) => {
-        const films = await response.json();
-        dispatch(fetchDiscoverSuccess(films));
-      })
-      .catch((error) => {
-        const errorMsg = Promise.reject(error);
-        dispatch(fetchDiscoverFail(errorMsg));
-      });
-  };
+  return (dispatch) =>
+    fetchFilmsRequest(
+      dispatch,
+      fetchDiscoverRequest,
+      link,
+      fetchDiscoverSuccess,
+      fetchDiscoverFail
+    );
 };

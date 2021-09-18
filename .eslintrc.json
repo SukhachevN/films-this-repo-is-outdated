@@ -21,6 +21,7 @@
     "camelcase": "off",
     "react/button-has-type": "off",
     "react/no-array-index-key": "off",
+    "no-fallthrough": "off",
     "jsx-a11y/label-has-associated-control": [
       "error",
       {

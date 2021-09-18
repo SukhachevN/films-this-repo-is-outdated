@@ -72,7 +72,7 @@ function FilmScreenView({
               isFilmScreen="true"
             />
             <WatchVideo
-              VideoKey={data?.filmVideo?.video?.results[0]?.key}
+              videoKey={data?.filmVideo?.video?.results[0]?.key}
               isFilmScreen="true"
             />
           </div>

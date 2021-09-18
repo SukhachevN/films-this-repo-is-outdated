@@ -1,4 +1,5 @@
 import { api_key } from "../api_key";
+import { fetchFilmsRequest } from "../fetchFilmsRequest";
 import {
   FILM_INFO_FAIL,
   FILM_INFO_REQUEST,
@@ -19,16 +20,15 @@ const fetchFilmInfoFail = (error) => ({
   payload: error,
 });
 
-export const fetchFilmInfo = (endpoint) => (dispatch) => {
-  dispatch(fetchFilmInfoRequest());
-  return window
-    .fetch(`https://api.themoviedb.org/3/movie/${endpoint}?api_key=${api_key}`)
-    .then(async (response) => {
-      const info = await response.json();
-      dispatch(fetchFilmInfoSuccess(info));
-    })
-    .catch((error) => {
-      const errorMsg = Promise.reject(error);
-      dispatch(fetchFilmInfoFail(errorMsg));
-    });
+const fetchFilmInfo = (endpoint) => (dispatch) => {
+  const link = `https://api.themoviedb.org/3/movie/${endpoint}?api_key=${api_key}`;
+  return fetchFilmsRequest(
+    dispatch,
+    fetchFilmInfoRequest,
+    link,
+    fetchFilmInfoSuccess,
+    fetchFilmInfoFail
+  );
 };
+
+export { fetchFilmInfo };

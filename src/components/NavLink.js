@@ -4,9 +4,8 @@ import { Link, useRouteMatch } from "react-router-dom";
 
 function NavLink({ to, children }) {
   const match = useRouteMatch(to);
-  const className = classNames("NavLink", { NavLinkMatch: match });
   return (
-    <Link className={className} to={to}>
+    <Link className={classNames("NavLink", { NavLinkMatch: match })} to={to}>
       {children}
     </Link>
   );

@@ -4,45 +4,26 @@ import {
   BsFillClockFill,
   BsDisplayFill,
 } from "react-icons/bs";
+import classNames from "classnames";
 import { CircularProgressbar } from "react-circular-progressbar";
 import { addToFavourite, removeFromFavourite } from "../redux/favourite";
 import { addToWatchLater, removeFromWatchLater } from "../redux/watchLater";
 import { comparator } from "../utils/comparator";
 import * as colors from "../styles/colors";
 
-function Heart(props) {
-  return <BsFillHeartFill {...props} />;
-}
+const Heart = memo((props) => <BsFillHeartFill {...props} />, comparator);
+const Clock = memo((props) => <BsFillClockFill {...props} />, comparator);
+const TV = memo((props) => <BsDisplayFill {...props} />, comparator);
+const Rate = memo((props) => <CircularProgressbar {...props} />, comparator);
 
-function Clock(props) {
-  return <BsFillClockFill {...props} />;
-}
+const Like = memo(({ dispatch, inFavourite, info, isFilmScreen = false }) => {
+  const dispatchFun = inFavourite
+    ? removeFromFavourite(info)
+    : addToFavourite(info);
+  const onClick = () => (info.id ? dispatch(dispatchFun) : null);
 
-function TV(props) {
-  return <BsDisplayFill {...props} />;
-}
-
-function Rate(props) {
-  return <CircularProgressbar {...props} />;
-}
-
-Heart = memo(Heart, comparator);
-Clock = memo(Clock, comparator);
-TV = memo(TV, comparator);
-Rate = memo(Rate, comparator);
-
-function Like({ dispatch, inFavourite, info, isFilmScreen = false }) {
   return (
-    <button
-      className="StatusButton"
-      onClick={() =>
-        info.id
-          ? dispatch(
-              inFavourite ? removeFromFavourite(info) : addToFavourite(info)
-            )
-          : null
-      }
-    >
+    <button className="StatusButton" onClick={onClick}>
       <Heart
         aria-label="add to favourite"
         size={isFilmScreen ? "2.5rem" : "2rem"}
@@ -50,57 +31,51 @@ function Like({ dispatch, inFavourite, info, isFilmScreen = false }) {
       />
     </button>
   );
-}
+}, comparator);
 
-function WatchLater({ dispatch, inWatchLater, info, isFilmScreen = false }) {
-  return (
-    <button
-      className="StatusButton"
-      onClick={() =>
-        info.id
-          ? dispatch(
-              inWatchLater ? removeFromWatchLater(info) : addToWatchLater(info)
-            )
-          : null
-      }
-    >
-      <Clock
-        aria-label="add to watch later list"
-        size={isFilmScreen ? "2.5rem" : "2rem"}
-        color={inWatchLater ? colors.brightGreen : colors.gray80}
-      />
-    </button>
-  );
-}
+const WatchLater = memo(
+  ({ dispatch, inWatchLater, info, isFilmScreen = false }) => {
+    const dispatchFun = inWatchLater
+      ? removeFromWatchLater(info)
+      : addToWatchLater(info);
+    const onClick = () => (info.id ? dispatch(dispatchFun) : null);
 
-function WatchVideo({ VideoKey, isFilmScreen = false }) {
-  if (!VideoKey) {
-    return null;
-  }
-  return (
-    <button className="StatusButton">
-      {VideoKey ? (
-        <a href={`https://www.youtube.com/watch?v=${VideoKey}`}>
+    return (
+      <button className="StatusButton" onClick={onClick}>
+        <Clock
+          aria-label="add to watch later list"
+          size={isFilmScreen ? "2.5rem" : "2rem"}
+          color={inWatchLater ? colors.brightGreen : colors.gray80}
+        />
+      </button>
+    );
+  },
+  comparator
+);
+
+const WatchVideo = memo(
+  ({ videoKey, isFilmScreen = false }) =>
+    Boolean(videoKey) && (
+      <button className="StatusButton">
+        <a href={`https://www.youtube.com/watch?v=${videoKey}`}>
           <TV size={isFilmScreen ? "2.5rem" : "2rem"} color={colors.gray80} />
         </a>
-      ) : null}
-    </button>
-  );
-}
+      </button>
+    ),
+  comparator
+);
 
-function Rating({ percentage = 0, isFilmScreen = false }) {
-  return (
+const Rating = memo(
+  ({ percentage = 0, isFilmScreen = false }) => (
     <div
-      className={`ProgressBar ${isFilmScreen ? "ProgressBarFilmScreen" : ""}`}
+      className={classNames("ProgressBar", {
+        ProgressBarFilmScreen: isFilmScreen,
+      })}
     >
       <Rate value={percentage} text={`${percentage}%`} />
     </div>
-  );
-}
-
-Like = memo(Like, comparator);
-WatchLater = memo(WatchLater, comparator);
-WatchVideo = memo(WatchVideo, comparator);
-Rating = memo(Rating, comparator);
+  ),
+  comparator
+);
 
 export { Like, WatchLater, WatchVideo, Rating };
