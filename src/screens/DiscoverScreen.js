@@ -11,18 +11,14 @@ function DiscoverScreen() {
   }
 
   const loadingFilms = Array(20).fill(loadingFilm);
-  const loadingPart =
-    loading &&
-    loadingFilms.map((film, index) => <Film data={film} key={index} />);
-  const readyPart =
-    !loading &&
-    films &&
-    films.results.map((film) => <Film data={film} key={film.id} />);
+  const isReady = !loading && films;
   return (
     <main>
       <div className="FilmContainer">
-        {loadingPart}
-        {readyPart}
+        {!isReady &&
+          loadingFilms.map((film, index) => <Film data={film} key={index} />)}
+        {isReady &&
+          films.results.map((film) => <Film data={film} key={film.id} />)}
       </div>
     </main>
   );
