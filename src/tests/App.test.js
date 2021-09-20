@@ -1,38 +1,25 @@
-import { screen } from "@testing-library/react";
-import { DiscoverScreen } from "../screens/discover";
+import { screen, cleanup } from "@testing-library/react";
+import * as reactRedux from "react-redux";
+import * as fetchFilmInfo from "../redux/filmInfo/filmInfoActions";
+import * as fetchFilmVideo from "../redux/filmVideo/filmVideoActions";
+import { DiscoverScreen } from "../screens/DiscoverScreen";
+import { FilmScreen } from "../screens/FilmScreen";
 import { render } from "./render";
-import faker from "faker";
-import { Film, FilmScreen } from "../screens/FilmScreen";
+import * as selectors from "../redux/selectors";
+import { generateFilmList, generateGlobalState } from "./generate";
 
-const fakeFilmInfo = {
-  results: [
-    {
-      id: faker.datatype.number(),
-      title: faker.lorem.words(),
-      overview: faker.lorem.paragraph(),
-      vote_average: faker.datatype.number({
-        min: 0,
-        max: 10,
-      }),
-      budget: faker.datatype.number({
-        min: 1000,
-        max: 100000000,
-      }),
-      release_date: faker.date
-        .between("1900-01-01", "2021-01-01")
-        .toLocaleString(),
-      runtime: faker.datatype.number({
-        min: 10,
-        max: 400,
-      }),
-      homepage: faker.internet.url(),
-    },
-  ],
-};
+afterEach(() => {
+  cleanup();
+});
 
-test("film list", () => {
-  const film = fakeFilmInfo.results[0];
-  render(<DiscoverScreen films={fakeFilmInfo} />);
+test("test that DiscoverScreen display films", () => {
+  const fakeFilms = generateFilmList();
+  const film = fakeFilms.results[0];
+  jest.spyOn(selectors, "useDiscover").mockImplementation(() => ({
+    loading: false,
+    films: fakeFilms,
+  }));
+  render(<DiscoverScreen />);
   expect(
     screen.getByRole("listitem", { name: film.title })
   ).toBeInTheDocument();
@@ -44,9 +31,16 @@ test("film list", () => {
   expect(screen.queryAllByText(`${film.vote_average * 10}%`)).toHaveLength(1);
 });
 
-test("film info", () => {
-  const film = fakeFilmInfo.results[0];
-  render(<Film {...fakeFilmInfo.results[0]} />);
+test("test that FilmScreen display film info", () => {
+  const globalState = generateGlobalState();
+  const film = globalState.filmInfo.info;
+  jest.spyOn(selectors, "useGlobalState").mockImplementation(() => globalState);
+  jest.spyOn(reactRedux, "useDispatch").mockImplementation(() => () => {});
+  jest.spyOn(fetchFilmInfo, "fetchFilmInfo").mockImplementation(() => () => {});
+  jest
+    .spyOn(fetchFilmVideo, "fetchFilmVideo")
+    .mockImplementation(() => () => {});
+  render(<FilmScreen />);
   expect(
     screen.getByRole("img", { name: `${film.title} poster` })
   ).toBeInTheDocument();
@@ -55,4 +49,5 @@ test("film info", () => {
   expect(screen.getByText(`Description: ${film.overview}`)).toBeInTheDocument();
   expect(screen.getByText(`Length: ${film.runtime} min`)).toBeInTheDocument();
   expect(screen.getByText(`Budget: ${film.budget} $`)).toBeInTheDocument();
+  expect(screen.queryAllByText(`${film.vote_average * 10}%`)).toHaveLength(1);
 });
