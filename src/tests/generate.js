@@ -30,8 +30,11 @@ function generateFilmList() {
 }
 
 function generateGlobalState() {
-  const { results } = generateFilmList();
+  const results = generateFilmList();
   return {
+    discover: {
+      films: results,
+    },
     favourite: {
       idList: [],
       dataList: [],
@@ -42,7 +45,7 @@ function generateGlobalState() {
     },
     filmInfo: {
       error: null,
-      info: results[0],
+      info: results.results[0],
     },
     filmVideo: {
       video: {
