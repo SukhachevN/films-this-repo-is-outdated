@@ -21,11 +21,15 @@ const Like = memo(({ dispatch, inFavourite, info, isFilmScreen = false }) => {
     ? removeFromFavourite(info)
     : addToFavourite(info);
   const onClick = () => (info.id ? dispatch(dispatchFun) : null);
+  const ariaLabel = classNames(
+    { "remove from": inFavourite },
+    { "add to": !inFavourite },
+    "favourite list"
+  );
 
   return (
-    <button className="StatusButton" onClick={onClick}>
+    <button className="StatusButton" onClick={onClick} aria-label={ariaLabel}>
       <Heart
-        aria-label="add to favourite"
         size={isFilmScreen ? "2.5rem" : "2rem"}
         color={inFavourite ? colors.red : colors.gray80}
       />
@@ -39,11 +43,15 @@ const WatchLater = memo(
       ? removeFromWatchLater(info)
       : addToWatchLater(info);
     const onClick = () => (info.id ? dispatch(dispatchFun) : null);
+    const ariaLabel = classNames(
+      { "remove from": inWatchLater },
+      { "add to": !inWatchLater },
+      "watch later list"
+    );
 
     return (
-      <button className="StatusButton" onClick={onClick}>
+      <button className="StatusButton" onClick={onClick} aria-label={ariaLabel}>
         <Clock
-          aria-label="add to watch later list"
           size={isFilmScreen ? "2.5rem" : "2rem"}
           color={inWatchLater ? colors.brightGreen : colors.gray80}
         />
